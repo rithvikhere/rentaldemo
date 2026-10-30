@@ -1,32 +1,32 @@
-# LuxeDrive — Premium Car Rental
+# VELOX — Premium Car Rental
 
-A visually impressive, luxury-themed, single-page car rental landing page built with:
+A visually impressive, luxury-themed, single-page car rental landing page.
 
-- **React 19** — Component-based UI
-- **Vite 8** — Development environment & build tooling
-- **Tailwind CSS v4** — Responsive utility-first styling
-- **Motion for React** — Purposeful UI animations (Phase 6)
-- **Lenis** — Smooth scrolling (Phase 6)
-- **Lucide React** — Consistent icon system
+> **Demo Notice:** VELOX is a fictional brand. All vehicle details, pricing, availability, and business information are illustrative demo content only.
 
-> **Demo Notice:** This is a frontend demonstration. All vehicle details, pricing, availability, and business information are illustrative only.
+---
+
+## Tech Stack
+
+| Package            | Version   | Role |
+|--------------------|-----------|------|
+| React              | ^19.3.1   | Component UI |
+| Vite               | ^8.3.5    | Build tooling |
+| Tailwind CSS       | ^4.3.3    | Utility styling (v4, no config file) |
+| @tailwindcss/vite  | ^4.3.3    | Vite plugin for Tailwind v4 |
+| Motion             | ^14.9.0   | Animations (Phase 6) |
+| Lenis              | ^1.3.27   | Smooth scroll (Phase 6) |
+| Lucide React       | ^1.65.0   | Icon system |
 
 ---
 
 ## Getting Started
 
 ```bash
-# Install dependencies
 npm install
-
-# Start development server
-npm run dev
-
-# Production build
-npm run build
-
-# Preview production build
-npm run preview
+npm run dev      # http://localhost:5173
+npm run build    # Production build
+npm run preview  # Preview production build
 ```
 
 ---
@@ -38,14 +38,16 @@ car-rental-demo/
 ├── public/
 ├── src/
 │   ├── assets/
-│   │   └── images/
-│   ├── components/       # One file per section component
+│   │   ├── images/
+│   │   └── README.md        # Image asset requirements
+│   ├── components/
 │   ├── data/
-│   │   └── cars.js       # Centralised vehicle data
-│   ├── hooks/            # Custom React hooks
+│   │   └── cars.js          # 10 vehicles, 5 categories
+│   ├── hooks/
+│   ├── design-system.md # Full design system spec
 │   ├── App.jsx
 │   ├── main.jsx
-│   └── index.css         # Global styles + Tailwind @theme tokens
+│   └── index.css        # Tailwind v4 @theme + global styles
 ├── index.html
 ├── vite.config.js
 └── README.md
@@ -53,30 +55,37 @@ car-rental-demo/
 
 ---
 
-## Development Phases
+## Design System
 
-| Phase | Description                          | Status     |
-|-------|--------------------------------------|------------|
-| 0     | Project Setup & Architecture         | ✅ Done    |
-| 1     | UI/UX Planning & Design System       | ⬜ Pending |
-| 2     | Navbar & Hero Section                | ⬜ Pending |
-| 3     | Vehicle Categories & Fleet Showcase  | ⬜ Pending |
-| 4     | Booking Process & Rental Requirements| ⬜ Pending |
-| 5     | Contact, Enquiry Form & FAQ          | ⬜ Pending |
-| 6     | Animations & Smooth Scrolling        | ⬜ Pending |
-| 7     | Responsive Design & Optimisation     | ⬜ Pending |
-| 8     | Deployment & Client Presentation     | ⬜ Pending |
+**Brand:** VELOX — Dark Luxury × Modern Minimalism × Automotive Editorial
+
+| Token                | Hex       |
+|----------------------|-----------|
+| Background Primary   | `#101010` |
+| Background Secondary | `#181818` |
+| Background Card      | `#202020` |
+| Background Light     | `#F4F3F0` |
+| Text Primary         | `#FFFFFF` |
+| Text Secondary       | `#A3A3A3` |
+| Accent Gold          | `#C6A875` |
+| Border               | `#303030` |
+
+Fonts: **Manrope** (headings) + **Inter** (body)
+
+Full spec: [`src/design-system.md`](src/design-system.md)
 
 ---
 
-## Tech Versions
+## Development Phases
 
-| Package              | Version  |
-|----------------------|----------|
-| react                | ^19.3.1  |
-| vite                 | ^8.3.5   |
-| tailwindcss          | ^4.3.3   |
-| @tailwindcss/vite    | ^4.3.3   |
-| motion               | ^14.9.0  |
-| lenis                | ^1.3.27  |
-| lucide-react         | ^1.65.0  |
+| Phase | Description                          | Status       |
+|-------|--------------------------------------|--------------|
+| 0     | Project Setup & Architecture         | ✅ Complete  |
+| 1     | UI/UX Planning & Design System       | ✅ Complete  |
+| 2     | Navbar & Hero Section                | ⬜ Pending   |
+| 3     | Vehicle Categories & Fleet Showcase  | ⬜ Pending   |
+| 4     | Booking Process & Rental Requirements| ⬜ Pending   |
+| 5     | Contact, Enquiry Form & FAQ          | ⬜ Pending   |
+| 6     | Animations & Smooth Scrolling        | ⬜ Pending   |
+| 7     | Responsive Design & Optimisation     | ⬜ Pending   |
+| 8     | Deployment & Client Presentation     | ⬜ Pending   |
