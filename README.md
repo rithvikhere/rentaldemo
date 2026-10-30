@@ -37,32 +37,22 @@ npm run preview  # Preview production build
 car-rental-demo/
 ├── public/
 ├── src/
+│   ├── animations/          # Motion tokens & reusable variants (Phase 6)
 │   ├── assets/
 │   │   ├── images/          # Vehicle & hero images
 │   │   └── README.md        # Image asset requirements
 │   ├── components/          # One file per section component
-│   │   ├── Navbar.jsx       # Fixed transparent-to-scrolled navbar & mobile drawer
-│   │   ├── Hero.jsx         # Full-bleed cinematic hero section with dual CTAs
-│   │   ├── Categories.jsx   # Editorial 5-category showcase
-│   │   ├── Fleet.jsx        # Available fleet showcase with interactive filter tabs
-│   │   ├── VehicleCard.jsx  # Reusable card with specs, INR pricing, and enquire action
-│   │   ├── BookingProcess.jsx   # 4-step booking workflow with connector line
-│   │   ├── Requirements.jsx     # 6 rental requirement & eligibility cards
-│   │   ├── RentalInformation.jsx # 6 key operational policies & guidance
-│   │   ├── FAQ.jsx              # Single-open accordion with accessible ARIA triggers
-│   │   ├── Contact.jsx          # Coordinated 2-column contact & enquiry section
-│   │   ├── ContactInfo.jsx      # Verified/placeholder direct contact channels
-│   │   └── EnquiryForm.jsx      # Client-side validated form with demo success state
 │   ├── data/
-│   │   ├── cars.js          # Centralised vehicle data (10 vehicles, 5 categories, formatINR)
-│   │   ├── rentalInfo.js    # Centralised booking steps, requirements, and policy data
-│   │   ├── faqData.js       # Centralised 6-item FAQ dataset
-│   │   └── contactInfo.js   # Centralised contact configuration & channel status
-│   ├── hooks/               # Custom React hooks
+│   │   ├── cars.js          # Centralised vehicle data (10 vehicles, 5 categories)
+│   │   ├── contactInfo.js   # Centralised contact details & placeholders
+│   │   ├── faqData.js       # Frequently asked questions & answers
+│   │   └── rentalInfo.js    # Steps, requirements, and policy definitions
+│   ├── hooks/
+│   │   └── useLenis.js      # Global Lenis smooth scrolling hook
 │   ├── design-system.md     # Full design system specification
-│   ├── App.jsx              # Main landing page shell
-│   ├── main.jsx
-│   └── index.css            # Tailwind v4 @theme tokens + global & component styles
+│   ├── App.jsx              # App shell & section coordinator
+│   ├── main.jsx             # Entrypoint with Lenis styles
+│   └── index.css            # Tailwind v4 @theme tokens + global styles
 ├── index.html               # Font loading, meta
 ├── vite.config.js           # Tailwind v4 plugin
 └── README.md
@@ -105,6 +95,6 @@ Full specification: [`src/design-system.md`](src/design-system.md)
 | 3     | Vehicle Categories & Fleet Showcase  | ✅ Complete  |
 | 4     | Booking Process & Rental Requirements| ✅ Complete  |
 | 5     | Contact, Enquiry Form & FAQ          | ✅ Complete  |
-| 6     | Animations & Smooth Scrolling        | ⬜ Pending   |
+| 6     | Animations & Smooth Scrolling        | ✅ Complete  |
 | 7     | Responsive Design & Optimisation     | ⬜ Pending   |
 | 8     | Deployment & Client Presentation     | ⬜ Pending   |

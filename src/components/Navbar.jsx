@@ -1,21 +1,15 @@
 import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { Menu, X } from 'lucide-react'
 
 /* ─── Navigation items ────────────────────────────────────────── */
 const NAV_LINKS = [
-  { label: 'Home',        href: '#home'       },
-  { label: 'Our Fleet',   href: '#fleet'      },
-  { label: 'Categories',  href: '#categories' },
-  { label: 'How It Works',href: '#how-it-works'},
-  { label: 'Contact',     href: '#contact'    },
+  { label: 'Home',         href: '#home'        },
+  { label: 'Our Fleet',    href: '#fleet'       },
+  { label: 'Categories',   href: '#categories'  },
+  { label: 'How It Works', href: '#how-it-works'},
+  { label: 'Contact',      href: '#contact'     },
 ]
-
-/* ─── Reduced-motion helper ───────────────────────────────────── */
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
 
 /* ─── Mobile menu overlay animation variants ─────────────────── */
 const drawerVariants = {
@@ -28,41 +22,66 @@ const drawerVariants = {
    Navbar
    ================================================================ */
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false)
-  const [menuOpen,    setMenuOpen]    = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('#home')
+  const shouldReduceMotion = useReducedMotion()
 
   /* Scroll state — single passive listener, cleaned up on unmount */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
-    onScroll() // initialise on mount
+    onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  /* Scrollspy: track currently visible section */
+  useEffect(() => {
+    const sectionEls = NAV_LINKS.map((link) => document.querySelector(link.href)).filter(Boolean)
+    if (!sectionEls.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(`#${entry.target.id}`)
+          }
+        })
+      },
+      {
+        rootMargin: '-20% 0px -55% 0px',
+        threshold: 0.1,
+      }
+    )
+
+    sectionEls.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [])
 
   /* Close mobile menu on Escape */
   useEffect(() => {
     if (!menuOpen) return
-    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false) }
+    const onKey = (e) => {
+      if (e.key === 'Escape') setMenuOpen(false)
+    }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
   }, [menuOpen])
 
-  /* Lock body scroll when menu is open */
+  /* Lock body scroll when mobile menu is open */
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [menuOpen])
 
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   const handleNavClick = useCallback((e, href) => {
-    e.preventDefault()
     closeMenu()
-    const target = document.querySelector(href)
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    setActiveSection(href)
   }, [closeMenu])
-
-  const reduced = prefersReducedMotion()
 
   return (
     <>
@@ -76,56 +95,69 @@ export default function Navbar() {
         style={{ zIndex: 'var(--z-sticky)' }}
       >
         <div className="velox-nav__inner container-velox">
-
           {/* Wordmark */}
           <a
             href="#home"
             onClick={(e) => handleNavClick(e, '#home')}
-            className="velox-nav__wordmark"
+            className="velox-nav__wordmark group"
             aria-label="VELOX — go to top"
           >
-            <span className="velox-nav__wordmark-rule" aria-hidden="true" />
+            <span
+              className="velox-nav__wordmark-rule transition-transform duration-300 group-hover:scale-x-125 origin-left"
+              aria-hidden="true"
+            />
             <span className="velox-nav__wordmark-text">VELOX</span>
           </a>
 
-          {/* Desktop nav links */}
-          <nav
-            aria-label="Main navigation"
-            className="velox-nav__links"
-          >
-            {NAV_LINKS.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={(e) => handleNavClick(e, href)}
-                className="velox-nav__link"
-              >
-                {label}
-              </a>
-            ))}
+          {/* Desktop nav links with active indicator */}
+          <nav aria-label="Main navigation" className="velox-nav__links">
+            {NAV_LINKS.map(({ label, href }) => {
+              const isActive = activeSection === href
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  onClick={(e) => handleNavClick(e, href)}
+                  className={`velox-nav__link relative py-1 transition-colors duration-200 ${
+                    isActive ? 'text-gold font-semibold' : 'text-text-secondary hover:text-gold'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <span>{label}</span>
+                  {isActive && !shouldReduceMotion && (
+                    <motion.span
+                      layoutId="activeNavIndicator"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-gold rounded-full"
+                      transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                    />
+                  )}
+                </a>
+              )
+            })}
           </nav>
 
-          {/* Desktop CTA */}
+          {/* Desktop CTA with micro-interaction */}
           <a
             href="#contact"
             onClick={(e) => handleNavClick(e, '#contact')}
-            className="btn btn-primary velox-nav__cta"
+            className="btn btn-primary velox-nav__cta group"
           >
-            Book Now
+            <span>Book Now</span>
           </a>
 
           {/* Mobile menu toggle */}
           <button
-            className="velox-nav__toggle"
+            className="velox-nav__toggle cursor-pointer"
             onClick={() => setMenuOpen((o) => !o)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
             aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
-            {menuOpen
-              ? <X size={22} strokeWidth={1.75} aria-hidden="true" />
-              : <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
-            }
+            {menuOpen ? (
+              <X size={22} strokeWidth={1.75} aria-hidden="true" />
+            ) : (
+              <Menu size={22} strokeWidth={1.75} aria-hidden="true" />
+            )}
           </button>
         </div>
       </header>
@@ -142,7 +174,7 @@ export default function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: reduced ? 0 : 0.2 }}
+              transition={{ duration: shouldReduceMotion ? 0 : 0.2 }}
               onClick={closeMenu}
               aria-hidden="true"
             />
@@ -155,7 +187,7 @@ export default function Navbar() {
               aria-label="Navigation menu"
               className="velox-nav__drawer"
               style={{ zIndex: 'var(--z-overlay)' }}
-              variants={reduced ? {} : drawerVariants}
+              variants={shouldReduceMotion ? {} : drawerVariants}
               initial="hidden"
               animate="visible"
               exit="exit"
@@ -169,7 +201,7 @@ export default function Navbar() {
                 <button
                   onClick={closeMenu}
                   aria-label="Close navigation menu"
-                  className="velox-nav__toggle"
+                  className="velox-nav__toggle cursor-pointer"
                 >
                   <X size={22} strokeWidth={1.75} aria-hidden="true" />
                 </button>
@@ -177,19 +209,31 @@ export default function Navbar() {
 
               {/* Drawer links */}
               <nav aria-label="Mobile navigation" className="velox-nav__drawer-links">
-                {NAV_LINKS.map(({ label, href }, i) => (
-                  <motion.a
-                    key={href}
-                    href={href}
-                    onClick={(e) => handleNavClick(e, href)}
-                    className="velox-nav__drawer-link"
-                    initial={reduced ? {} : { opacity: 0, x: -12 }}
-                    animate={reduced ? {} : { opacity: 1, x: 0 }}
-                    transition={{ delay: 0.06 + i * 0.05, duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    {label}
-                  </motion.a>
-                ))}
+                {NAV_LINKS.map(({ label, href }, i) => {
+                  const isActive = activeSection === href
+                  return (
+                    <motion.a
+                      key={href}
+                      href={href}
+                      onClick={(e) => handleNavClick(e, href)}
+                      className={`velox-nav__drawer-link transition-colors duration-200 ${
+                        isActive
+                          ? 'text-gold font-bold pl-2 border-l-2 border-gold'
+                          : 'text-text-primary hover:text-gold'
+                      }`}
+                      initial={shouldReduceMotion ? {} : { opacity: 0, x: -12 }}
+                      animate={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
+                      transition={{
+                        delay: 0.05 + i * 0.04,
+                        duration: 0.24,
+                        ease: [0.16, 1, 0.3, 1],
+                      }}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {label}
+                    </motion.a>
+                  )
+                })}
               </nav>
 
               {/* Drawer CTA */}
@@ -197,8 +241,7 @@ export default function Navbar() {
                 <a
                   href="#contact"
                   onClick={(e) => handleNavClick(e, '#contact')}
-                  className="btn btn-primary"
-                  style={{ width: '100%', justifyContent: 'center' }}
+                  className="btn btn-primary w-full justify-center"
                 >
                   Book Now
                 </a>

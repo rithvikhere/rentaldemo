@@ -1,8 +1,11 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { ArrowRight, Compass } from 'lucide-react'
 import { vehicleCategories } from '../data/cars'
+import { fadeUpVariant, viewportOnce } from '../animations/variants'
 
 export default function Categories({ onSelectCategory }) {
+  const shouldReduceMotion = useReducedMotion()
+
   const handleCategoryClick = (categoryId) => {
     if (onSelectCategory) {
       onSelectCategory(categoryId)
@@ -21,7 +24,13 @@ export default function Categories({ onSelectCategory }) {
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16">
+        <motion.div
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16"
+          initial={shouldReduceMotion ? {} : 'hidden'}
+          whileInView={shouldReduceMotion ? {} : 'visible'}
+          viewport={viewportOnce}
+          variants={fadeUpVariant}
+        >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
               <Compass size={14} className="text-gold" aria-hidden="true" />
@@ -42,7 +51,7 @@ export default function Categories({ onSelectCategory }) {
               5 Distinct Classes · 10 Vehicles
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── Editorial Category Grid ────────────────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -59,12 +68,16 @@ export default function Categories({ onSelectCategory }) {
               <motion.article
                 key={category.id}
                 className={`group relative rounded-lg overflow-hidden border border-border bg-bg-card flex flex-col justify-end min-h-[340px] md:min-h-[380px] p-6 lg:p-8 transition-all duration-300 hover:border-gold/60 hover:shadow-2xl ${colSpan}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+                whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                viewport={viewportOnce}
+                transition={{
+                  duration: 0.55,
+                  delay: shouldReduceMotion ? 0 : index * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
               >
-                {/* Background Image */}
+                {/* Background Image with restrained hover zoom */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
                   <img
                     src={category.image}
@@ -101,13 +114,13 @@ export default function Categories({ onSelectCategory }) {
                   <button
                     type="button"
                     onClick={() => handleCategoryClick(category.id)}
-                    className="inline-flex items-center gap-2 text-label font-semibold text-white group-hover:text-gold transition-colors duration-200"
+                    className="inline-flex items-center gap-2 text-label font-semibold text-white group-hover:text-gold transition-colors duration-200 cursor-pointer"
                     aria-label={`Explore ${category.name} vehicles in fleet`}
                   >
                     <span>Explore Vehicles</span>
                     <ArrowRight
                       size={16}
-                      className="text-gold transition-transform duration-200 group-hover:translate-x-1"
+                      className="text-gold transition-transform duration-200 group-hover:translate-x-1.5"
                       aria-hidden="true"
                     />
                   </button>

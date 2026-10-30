@@ -1,16 +1,12 @@
 import { useMemo } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { Car, Layers, SlidersHorizontal, RefreshCw } from 'lucide-react'
 import { vehicles, filterTabs } from '../data/cars'
 import VehicleCard from './VehicleCard'
-
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+import { fadeUpVariant, viewportOnce } from '../animations/variants'
 
 export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnquire }) {
-  const reduced = prefersReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
 
   // Filtered vehicles
   const filteredVehicles = useMemo(() => {
@@ -32,7 +28,13 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+        <motion.div
+          className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12"
+          initial={shouldReduceMotion ? {} : 'hidden'}
+          whileInView={shouldReduceMotion ? {} : 'visible'}
+          viewport={viewportOnce}
+          variants={fadeUpVariant}
+        >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
               <Car size={14} className="text-gold" aria-hidden="true" />
@@ -56,7 +58,7 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
               Showing <strong className="text-white font-semibold">{filteredVehicles.length}</strong> of {vehicles.length} vehicles
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── Category Filter Tabs ───────────────────────────── */}
         <div className="mb-10">
@@ -110,17 +112,17 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
         <div id="fleet-grid" role="region" aria-live="polite">
           {filteredVehicles.length > 0 ? (
             <motion.div
-              layout={!reduced}
+              layout={!shouldReduceMotion}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
               <AnimatePresence mode="popLayout">
                 {filteredVehicles.map((vehicle) => (
                   <motion.div
                     key={vehicle.id}
-                    layout={!reduced}
-                    initial={reduced ? {} : { opacity: 0, scale: 0.96 }}
-                    animate={reduced ? {} : { opacity: 1, scale: 1 }}
-                    exit={reduced ? {} : { opacity: 0, scale: 0.96 }}
+                    layout={!shouldReduceMotion}
+                    initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.97 }}
+                    animate={shouldReduceMotion ? {} : { opacity: 1, scale: 1 }}
+                    exit={shouldReduceMotion ? {} : { opacity: 0, scale: 0.97 }}
                     transition={{ duration: 0.35, ease: 'easeOut' }}
                     className="h-full"
                   >
@@ -142,7 +144,7 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
               <button
                 type="button"
                 onClick={() => onSelectCategory && onSelectCategory('all')}
-                className="btn btn-secondary inline-flex items-center gap-2"
+                className="btn btn-secondary inline-flex items-center gap-2 cursor-pointer"
               >
                 <RefreshCw size={15} aria-hidden="true" />
                 <span>Show All Vehicles</span>

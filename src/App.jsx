@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLenis } from './hooks/useLenis'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Categories from './components/Categories'
@@ -10,6 +11,9 @@ import FAQ from './components/FAQ'
 import Contact from './components/Contact'
 
 export default function App() {
+  // Global Lenis smooth scrolling instance
+  const { scrollTo } = useLenis()
+
   // Shared state: active category filter in Fleet
   const [selectedCategory, setSelectedCategory] = useState('all')
 
@@ -24,10 +28,7 @@ export default function App() {
   // Handler when user clicks 'Enquire Now' on a vehicle card
   const handleEnquireVehicle = (vehicle) => {
     setEnquiryVehicle(vehicle)
-    const contactSection = document.getElementById('contact')
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
+    scrollTo('#contact')
   }
 
   // Handler to clear preselected vehicle after form reset
@@ -86,7 +87,7 @@ export default function App() {
             </span>
           </div>
           <p className="text-[11px] text-text-muted">
-            Phase 5: FAQ, Contact Information &amp; Enquiry Form complete.
+            Phase 6: Animation System &amp; Lenis Smooth Scrolling verified.
           </p>
         </div>
       </footer>
