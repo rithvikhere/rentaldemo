@@ -45,9 +45,13 @@ car-rental-demo/
 │   │   ├── Hero.jsx         # Full-bleed cinematic hero section with dual CTAs
 │   │   ├── Categories.jsx   # Editorial 5-category showcase
 │   │   ├── Fleet.jsx        # Available fleet showcase with interactive filter tabs
-│   │   └── VehicleCard.jsx  # Reusable card with specs, INR pricing, and enquire action
+│   │   ├── VehicleCard.jsx  # Reusable card with specs, INR pricing, and enquire action
+│   │   ├── BookingProcess.jsx   # 4-step booking workflow with connector line
+│   │   ├── Requirements.jsx     # 6 rental requirement & eligibility cards
+│   │   └── RentalInformation.jsx # 6 key operational policies & guidance
 │   ├── data/
-│   │   └── cars.js          # Centralised vehicle data (10 vehicles, 5 categories, formatINR)
+│   │   ├── cars.js          # Centralised vehicle data (10 vehicles, 5 categories, formatINR)
+│   │   └── rentalInfo.js    # Centralised booking steps, requirements, and policy data
 │   ├── hooks/               # Custom React hooks
 │   ├── design-system.md     # Full design system specification
 │   ├── App.jsx              # Main landing page shell
@@ -93,7 +97,7 @@ Full specification: [`src/design-system.md`](src/design-system.md)
 | 1     | UI/UX Planning & Design System       | ✅ Complete  |
 | 2     | Navbar & Hero Section                | ✅ Complete  |
 | 3     | Vehicle Categories & Fleet Showcase  | ✅ Complete  |
-| 4     | Booking Process & Rental Requirements| ⬜ Pending   |
+| 4     | Booking Process & Rental Requirements| ✅ Complete  |
 | 5     | Contact, Enquiry Form & FAQ          | ⬜ Pending   |
 | 6     | Animations & Smooth Scrolling        | ⬜ Pending   |
 | 7     | Responsive Design & Optimisation     | ⬜ Pending   |

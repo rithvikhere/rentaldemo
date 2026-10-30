@@ -3,6 +3,9 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Categories from './components/Categories'
 import Fleet from './components/Fleet'
+import BookingProcess from './components/BookingProcess'
+import Requirements from './components/Requirements'
+import RentalInformation from './components/RentalInformation'
 import { Car, CheckCircle2, ArrowRight } from 'lucide-react'
 import { formatINR } from './data/cars'
 
@@ -46,17 +49,26 @@ export default function App() {
           onEnquire={handleEnquireVehicle}
         />
 
-        {/* ── Temporary Phase 3 Contact Anchor / Placeholder ─── */}
+        {/* ── 5. How It Works ─────────────────────────────────── */}
+        <BookingProcess />
+
+        {/* ── 6. Rental Requirements ──────────────────────────── */}
+        <Requirements />
+
+        {/* ── 7. Rental Information ───────────────────────────── */}
+        <RentalInformation />
+
+        {/* ── Temporary Phase 4 Contact Anchor / Placeholder ─── */}
         <section
           id="contact"
-          className="section-py-md bg-bg-secondary border-t border-border"
+          className="section-py-md bg-bg-primary border-t border-border"
           aria-label="Enquiry Destination Placeholder"
         >
           <div className="container-velox">
             <div className="max-w-2xl mx-auto p-8 rounded-lg border border-border bg-bg-card shadow-2xl">
               <div className="flex items-center gap-2 mb-3">
-                <span className="badge badge-gold">Phase 3 Integration</span>
-                <span className="text-meta text-text-muted">Enquiry Target</span>
+                <span className="badge badge-gold">Phase 4 Integration</span>
+                <span className="text-meta text-text-muted">Enquiry Staging Desk</span>
               </div>
 
               <h2 className="text-title font-heading font-bold text-white mb-2">
@@ -110,7 +122,7 @@ export default function App() {
       </main>
 
       {/* ── Footer Anchor / Placeholder ─────────────────────── */}
-      <footer className="py-8 bg-bg-primary border-t border-border text-center text-meta text-text-muted">
+      <footer className="py-8 bg-bg-secondary border-t border-border text-center text-meta text-text-muted">
         <div className="container-velox flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="w-4 h-0.5 bg-gold block" aria-hidden="true" />
@@ -122,7 +134,7 @@ export default function App() {
             </span>
           </div>
           <p className="text-[11px] text-text-muted">
-            Phase 3: Vehicle Categories &amp; Fleet Showcase complete.
+            Phase 4: Booking Process, Requirements &amp; Information complete.
           </p>
         </div>
       </footer>
