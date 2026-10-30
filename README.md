@@ -38,18 +38,23 @@ car-rental-demo/
 ├── public/
 ├── src/
 │   ├── assets/
-│   │   ├── images/
+│   │   ├── images/          # Vehicle & hero images
 │   │   └── README.md        # Image asset requirements
-│   ├── components/
+│   ├── components/          # One file per section component
+│   │   ├── Navbar.jsx       # Fixed transparent-to-scrolled navbar & mobile drawer
+│   │   ├── Hero.jsx         # Full-bleed cinematic hero section with dual CTAs
+│   │   ├── Categories.jsx   # Editorial 5-category showcase
+│   │   ├── Fleet.jsx        # Available fleet showcase with interactive filter tabs
+│   │   └── VehicleCard.jsx  # Reusable card with specs, INR pricing, and enquire action
 │   ├── data/
-│   │   └── cars.js          # 10 vehicles, 5 categories
-│   ├── hooks/
-│   ├── design-system.md # Full design system spec
-│   ├── App.jsx
+│   │   └── cars.js          # Centralised vehicle data (10 vehicles, 5 categories, formatINR)
+│   ├── hooks/               # Custom React hooks
+│   ├── design-system.md     # Full design system specification
+│   ├── App.jsx              # Main landing page shell
 │   ├── main.jsx
-│   └── index.css        # Tailwind v4 @theme + global styles
-├── index.html
-├── vite.config.js
+│   └── index.css            # Tailwind v4 @theme tokens + global & component styles
+├── index.html               # Font loading, meta
+├── vite.config.js           # Tailwind v4 plugin
 └── README.md
 ```
 
@@ -58,6 +63,8 @@ car-rental-demo/
 ## Design System
 
 **Brand:** VELOX — Dark Luxury × Modern Minimalism × Automotive Editorial
+
+### Color Tokens
 
 | Token                | Hex       |
 |----------------------|-----------|
@@ -70,9 +77,11 @@ car-rental-demo/
 | Accent Gold          | `#C6A875` |
 | Border               | `#303030` |
 
-Fonts: **Manrope** (headings) + **Inter** (body)
+### Fonts
+- **Manrope** — headings (display, section, card titles), weights 300–800
+- **Inter** — body, UI, metadata, labels, weights 300–600
 
-Full spec: [`src/design-system.md`](src/design-system.md)
+Full specification: [`src/design-system.md`](src/design-system.md)
 
 ---
 
@@ -82,8 +91,8 @@ Full spec: [`src/design-system.md`](src/design-system.md)
 |-------|--------------------------------------|--------------|
 | 0     | Project Setup & Architecture         | ✅ Complete  |
 | 1     | UI/UX Planning & Design System       | ✅ Complete  |
-| 2     | Navbar & Hero Section                | ⬜ Pending   |
-| 3     | Vehicle Categories & Fleet Showcase  | ⬜ Pending   |
+| 2     | Navbar & Hero Section                | ✅ Complete  |
+| 3     | Vehicle Categories & Fleet Showcase  | ✅ Complete  |
 | 4     | Booking Process & Rental Requirements| ⬜ Pending   |
 | 5     | Contact, Enquiry Form & FAQ          | ⬜ Pending   |
 | 6     | Animations & Smooth Scrolling        | ⬜ Pending   |
