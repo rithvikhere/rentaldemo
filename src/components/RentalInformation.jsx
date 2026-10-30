@@ -1,11 +1,7 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Fuel, MapPin, Clock, RotateCcw, Wallet, Route, Info } from 'lucide-react'
 import { rentalPolicies } from '../data/rentalInfo'
-
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
 
 const iconMap = {
   Fuel,
@@ -17,7 +13,7 @@ const iconMap = {
 }
 
 export default function RentalInformation() {
-  const reduced = prefersReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <section
@@ -27,7 +23,13 @@ export default function RentalInformation() {
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20">
+        <motion.div
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
+          initial={shouldReduceMotion ? {} : 'hidden'}
+          whileInView={shouldReduceMotion ? {} : 'visible'}
+          viewport={viewportOnce}
+          variants={fadeUpVariant}
+        >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
               <Info size={14} className="text-gold" aria-hidden="true" />
@@ -48,7 +50,7 @@ export default function RentalInformation() {
               Operational Policies &amp; Guidance
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── 2-Column Policy Information Grid ───────────────── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
@@ -59,10 +61,14 @@ export default function RentalInformation() {
               <motion.article
                 key={policy.id}
                 className="group relative bg-bg-card border border-border rounded-lg p-7 transition-all duration-300 hover:border-gold/50 hover:bg-bg-card/90"
-                initial={reduced ? {} : { opacity: 0, y: 18 }}
-                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: index * 0.07 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 18 }}
+                whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                viewport={viewportOnce}
+                transition={{
+                  duration: 0.5,
+                  delay: shouldReduceMotion ? 0 : index * 0.07,
+                  ease: luxuryEase,
+                }}
               >
                 <div className="flex items-start gap-5">
                   {/* Left Number / Icon Column */}
@@ -97,7 +103,13 @@ export default function RentalInformation() {
         </div>
 
         {/* ── General Informational Disclaimer ───────────────── */}
-        <div className="mt-12 p-6 rounded-lg bg-bg-card border border-border/70 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <motion.div
+          className="mt-12 p-6 rounded-lg bg-bg-card border border-border/70 flex flex-col sm:flex-row items-center justify-between gap-4"
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.5, delay: 0.25, ease: luxuryEase }}
+        >
           <p className="text-body-sm text-text-muted leading-relaxed">
             <strong className="text-text-secondary font-medium">Policy Disclaimer:</strong> All policy descriptions above represent general operational parameters. Specific terms, fuel agreements, security deposit rates, and state entry fees must be finalized with your rental concierge prior to booking confirmation.
           </p>
@@ -107,7 +119,7 @@ export default function RentalInformation() {
           >
             Review Terms With Us
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

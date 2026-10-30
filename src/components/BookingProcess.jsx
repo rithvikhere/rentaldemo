@@ -1,11 +1,7 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { Compass, FileText, PhoneCall, KeyRound, Workflow, ArrowRight } from 'lucide-react'
 import { bookingSteps } from '../data/rentalInfo'
-
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
 
 const iconMap = {
   Compass,
@@ -15,7 +11,7 @@ const iconMap = {
 }
 
 export default function BookingProcess() {
-  const reduced = prefersReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <section
@@ -25,7 +21,13 @@ export default function BookingProcess() {
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20">
+        <motion.div
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
+          initial={shouldReduceMotion ? {} : 'hidden'}
+          whileInView={shouldReduceMotion ? {} : 'visible'}
+          viewport={viewportOnce}
+          variants={fadeUpVariant}
+        >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
               <Workflow size={14} className="text-gold" aria-hidden="true" />
@@ -46,14 +48,18 @@ export default function BookingProcess() {
               4 Streamlined Steps
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── Desktop & Tablet Process Grid ──────────────────── */}
         <div className="relative">
           {/* Subtle Horizontal Connecting Line (Desktop xl only) */}
-          <div
-            className="hidden xl:block absolute top-[52px] left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-border to-transparent z-0"
+          <motion.div
+            className="hidden xl:block absolute top-[52px] left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-border to-transparent z-0 origin-left"
             aria-hidden="true"
+            initial={shouldReduceMotion ? {} : { scaleX: 0, opacity: 0 }}
+            whileInView={shouldReduceMotion ? {} : { scaleX: 1, opacity: 1 }}
+            viewport={viewportOnce}
+            transition={{ duration: 0.8, delay: 0.2, ease: luxuryEase }}
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 relative z-10">
@@ -64,16 +70,20 @@ export default function BookingProcess() {
                 <motion.article
                   key={step.step}
                   className="card-info group flex flex-col justify-between h-full relative transition-all duration-300 hover:border-gold/50 hover:shadow-xl hover:-translate-y-1"
-                  initial={reduced ? {} : { opacity: 0, y: 24 }}
-                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-40px' }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 22 }}
+                  whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                  viewport={viewportOnce}
+                  transition={{
+                    duration: 0.55,
+                    delay: shouldReduceMotion ? 0 : index * 0.09,
+                    ease: luxuryEase,
+                  }}
                 >
                   {/* Top Step Number & Icon Row */}
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       {/* Step Number pill */}
-                      <span className="text-meta font-mono font-bold text-gold tracking-widest px-2.5 py-1 rounded-[2px] bg-gold/10 border border-gold/25">
+                      <span className="text-meta font-mono font-bold text-gold tracking-widest px-2.5 py-1 rounded-[2px] bg-gold/10 border border-gold/25 transition-colors duration-200 group-hover:border-gold/50">
                         STEP {step.step}
                       </span>
 
@@ -106,7 +116,13 @@ export default function BookingProcess() {
         </div>
 
         {/* ── Bottom Callout Banner ──────────────────────────── */}
-        <div className="mt-12 p-6 rounded-lg bg-bg-card border border-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <motion.div
+          className="mt-12 p-6 rounded-lg bg-bg-card border border-border flex flex-col sm:flex-row items-center justify-between gap-4"
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.5, delay: 0.35, ease: luxuryEase }}
+        >
           <div className="flex items-center gap-3">
             <span className="w-2 h-2 rounded-full bg-gold animate-pulse shrink-0" aria-hidden="true" />
             <p className="text-body-sm text-text-secondary">
@@ -115,12 +131,16 @@ export default function BookingProcess() {
           </div>
           <a
             href="#contact"
-            className="text-label text-gold hover:text-gold-light inline-flex items-center gap-1.5 font-semibold transition-colors shrink-0"
+            className="text-label text-gold hover:text-gold-light inline-flex items-center gap-1.5 font-semibold transition-colors shrink-0 group"
           >
             <span>Ask an Enquiry Specialist</span>
-            <ArrowRight size={14} aria-hidden="true" />
+            <ArrowRight
+              size={14}
+              className="transition-transform duration-200 group-hover:translate-x-1"
+              aria-hidden="true"
+            />
           </a>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

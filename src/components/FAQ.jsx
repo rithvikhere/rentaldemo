@@ -1,16 +1,12 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { ChevronDown, HelpCircle } from 'lucide-react'
 import { faqList } from '../data/faqData'
-
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
 
 export default function FAQ() {
   const [openId, setOpenId] = useState(faqList[0]?.id || null) // First item open by default
-  const reduced = prefersReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
 
   const toggleItem = (id) => {
     setOpenId((prev) => (prev === id ? null : id))
@@ -24,7 +20,13 @@ export default function FAQ() {
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20">
+        <motion.div
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
+          initial={shouldReduceMotion ? {} : 'hidden'}
+          whileInView={shouldReduceMotion ? {} : 'visible'}
+          viewport={viewportOnce}
+          variants={fadeUpVariant}
+        >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
               <HelpCircle size={14} className="text-gold" aria-hidden="true" />
@@ -45,10 +47,16 @@ export default function FAQ() {
               Frequently Asked Questions
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── FAQ Accordion Container ─────────────────────────── */}
-        <div className="max-w-3xl mx-auto divide-y divide-border border-y border-border">
+        <motion.div
+          className="max-w-3xl mx-auto divide-y divide-border border-y border-border"
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 18 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.55, ease: luxuryEase }}
+        >
           {faqList.map((item) => {
             const isOpen = openId === item.id
             const triggerId = `faq-trigger-${item.id}`
@@ -93,10 +101,10 @@ export default function FAQ() {
                       id={panelId}
                       role="region"
                       aria-labelledby={triggerId}
-                      initial={reduced ? { opacity: 1 } : { height: 0, opacity: 0 }}
-                      animate={reduced ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
-                      exit={reduced ? { opacity: 0 } : { height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                      initial={shouldReduceMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
+                      animate={shouldReduceMotion ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
+                      exit={shouldReduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: luxuryEase }}
                       className="overflow-hidden"
                     >
                       <div className="pb-7 pl-9 pr-4 text-body text-text-secondary leading-relaxed border-l-2 border-gold/40 ml-2 mb-2">
@@ -108,7 +116,7 @@ export default function FAQ() {
               </div>
             )
           })}
-        </div>
+        </motion.div>
 
         {/* ── Subtitle Footnote ──────────────────────────────── */}
         <p className="text-center text-meta text-text-muted mt-10">

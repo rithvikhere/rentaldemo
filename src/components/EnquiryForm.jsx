@@ -1,12 +1,8 @@
 import { useState, useMemo, useId } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { CheckCircle2, RotateCcw, AlertTriangle, Send, Calendar, Clock, Car, User, Mail, Phone, MessageSquare } from 'lucide-react'
 import { vehicles, vehicleCategories } from '../data/cars'
-
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+import { luxuryEase } from '../animations/variants'
 
 function getLocalTodayDateString() {
   const now = new Date()
@@ -30,7 +26,7 @@ function isValidEmail(email) {
 
 export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
   const formIdPrefix = useId()
-  const reduced = prefersReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
   const minDate = useMemo(() => getLocalTodayDateString(), [])
 
   // Form State
@@ -68,120 +64,104 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
     }
   }
 
-  // Filter available vehicles dynamically based on selected category
-  const availableVehicles = useMemo(() => {
-    if (!formData.category) return []
+  // Filter vehicles available for the currently chosen category
+  const selectableVehicles = useMemo(() => {
+    if (!formData.category) return vehicles
     return vehicles.filter((v) => v.category === formData.category)
   }, [formData.category])
 
-  // Field change handlers
-  const handleCategoryChange = (e) => {
-    const newCategory = e.target.value
-    setFormData((prev) => {
-      // Check if current vehicle is in new category
-      const currentVehicle = vehicles.find((v) => String(v.id) === prev.vehicleId)
-      const isVehicleStillValid = currentVehicle && currentVehicle.category === newCategory
-      return {
-        ...prev,
-        category: newCategory,
-        vehicleId: isVehicleStillValid ? prev.vehicleId : '',
-      }
-    })
-    if (errors.category) {
-      setErrors((prev) => ({ ...prev, category: undefined }))
-    }
-  }
-
+  // Field change handler with validation clearance
   const handleChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
+    setFormData((prev) => {
+      const next = { ...prev, [field]: value }
+      if (field === 'category') {
+        const vehicleStillValid = vehicles.some(
+          (v) => String(v.id) === String(prev.vehicleId) && v.category === value
+        )
+        if (!vehicleStillValid) {
+          next.vehicleId = ''
+        }
+      }
+      return next
+    })
+
     if (errors[field]) {
       setErrors((prev) => ({ ...prev, [field]: undefined }))
     }
   }
 
-  // Validate entire form on submit
+  // Client-side validation function
   const validate = () => {
     const errs = {}
 
-    // Full name
     if (!formData.fullName.trim()) {
-      errs.fullName = 'Full Name is required.'
+      errs.fullName = 'Full name is required.'
+    } else if (formData.fullName.trim().length < 2) {
+      errs.fullName = 'Name must be at least 2 characters.'
     }
 
-    // Phone
     if (!formData.phone.trim()) {
-      errs.phone = 'Phone Number is required.'
+      errs.phone = 'Contact phone number is required.'
     } else if (!isValidPhone(formData.phone)) {
-      errs.phone = 'Please enter a valid phone number (min 8 digits).'
+      errs.phone = 'Please provide a valid 10-digit mobile number.'
     }
 
-    // Email
     if (!formData.email.trim()) {
-      errs.email = 'Email Address is required.'
+      errs.email = 'Email address is required.'
     } else if (!isValidEmail(formData.email)) {
-      errs.email = 'Please enter a valid email address.'
+      errs.email = 'Please provide a valid email format (name@example.com).'
     }
 
-    // Category
     if (!formData.category) {
-      errs.category = 'Please select a preferred vehicle category.'
+      errs.category = 'Please choose a vehicle category.'
     }
 
-    // Vehicle
     if (!formData.vehicleId) {
-      errs.vehicleId = 'Please select a preferred vehicle.'
+      errs.vehicleId = 'Please select a preferred vehicle model.'
     }
 
-    // Pickup Date
     if (!formData.pickupDate) {
-      errs.pickupDate = 'Pickup Date is required.'
+      errs.pickupDate = 'Pickup date is required.'
     } else if (formData.pickupDate < minDate) {
-      errs.pickupDate = 'Pickup Date cannot be in the past.'
+      errs.pickupDate = 'Pickup date cannot be in the past.'
     }
 
-    // Duration
     const durationNum = parseInt(formData.duration, 10)
-    if (!formData.duration || isNaN(durationNum) || durationNum <= 0) {
-      errs.duration = 'Please specify a positive rental duration (at least 1 day).'
+    if (!formData.duration || isNaN(durationNum) || durationNum < 1) {
+      errs.duration = 'Rental duration must be at least 1 day.'
+    } else if (durationNum > 90) {
+      errs.duration = 'Maximum demo booking duration is 90 days.'
     }
 
-    setErrors(errs)
-    return Object.keys(errs).length === 0
+    return errs
   }
 
+  // Submit Handler
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!validate()) {
-      // Focus first error element
-      const firstErrorKey = Object.keys(errors)[0]
-      if (firstErrorKey) {
-        const el = document.getElementById(`${formIdPrefix}-${firstErrorKey}`)
-        if (el) el.focus()
-      }
+    const validationErrors = validate()
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      const firstErrorKey = Object.keys(validationErrors)[0]
+      const el = document.getElementById(`${formIdPrefix}-${firstErrorKey}`)
+      if (el) el.focus()
       return
     }
 
-    // Find selected vehicle & category display names
-    const selectedVeh = vehicles.find((v) => String(v.id) === formData.vehicleId)
-    const selectedCat = vehicleCategories.find((c) => c.id === formData.category)
+    const chosenVehicle = vehicles.find((v) => String(v.id) === String(formData.vehicleId))
+    const chosenCategory = vehicleCategories.find((c) => c.id === formData.category)
 
-    const summary = {
-      fullName: formData.fullName.trim(),
-      phone: formData.phone.trim(),
-      email: formData.email.trim(),
-      category: selectedCat ? selectedCat.name : formData.category,
-      vehicle: selectedVeh ? selectedVeh.fullName : formData.vehicleId,
-      pickupDate: formData.pickupDate,
-      duration: `${formData.duration} Day${parseInt(formData.duration, 10) > 1 ? 's' : ''}`,
-      message: formData.message.trim() || 'No additional notes provided.',
-      dailyRate: selectedVeh ? selectedVeh.pricePerDay : null,
-    }
-
-    setSubmittedData(summary)
+    setSubmittedData({
+      ...formData,
+      vehicleObj: chosenVehicle,
+      categoryObj: chosenCategory,
+      submittedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    })
     setIsSuccess(true)
   }
 
+  // Reset Form Handler
   const handleReset = () => {
     setFormData({
       fullName: '',
@@ -208,9 +188,9 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
           /* ── 1. Active Enquiry Form ───────────────────────── */
           <motion.div
             key="form"
-            initial={reduced ? {} : { opacity: 0 }}
-            animate={reduced ? {} : { opacity: 1 }}
-            exit={reduced ? {} : { opacity: 0 }}
+            initial={shouldReduceMotion ? {} : { opacity: 0 }}
+            animate={shouldReduceMotion ? {} : { opacity: 1 }}
+            exit={shouldReduceMotion ? {} : { opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
             <div className="mb-8">
@@ -309,7 +289,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 </div>
               </div>
 
-              {/* Row 3: Preferred Category & Preferred Vehicle */}
+              {/* Row 3: Category & Preferred Vehicle */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="form-group">
                   <label
@@ -317,24 +297,24 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                     className="form-label flex items-center gap-1.5"
                   >
                     <Car size={14} className="text-gold" aria-hidden="true" />
-                    <span>Preferred Category</span>
+                    <span>Vehicle Class</span>
                     <span className="text-gold" aria-hidden="true">*</span>
                   </label>
                   <select
                     id={`${formIdPrefix}-category`}
                     value={formData.category}
-                    onChange={handleCategoryChange}
+                    onChange={(e) => handleChange('category', e.target.value)}
                     aria-invalid={Boolean(errors.category)}
                     aria-describedby={errors.category ? `${formIdPrefix}-category-error` : undefined}
                     className={`form-select ${errors.category ? 'form-input--error' : ''}`}
                     required
                   >
-                    <option value="">Select a Category</option>
-                    <option value="economy">Economy</option>
-                    <option value="sedan">Sedan</option>
-                    <option value="suv">SUV</option>
-                    <option value="luxury">Luxury</option>
-                    <option value="sports">Premium / Sports</option>
+                    <option value="">Select Category...</option>
+                    {vehicleCategories.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.name} ({cat.count} models)
+                      </option>
+                    ))}
                   </select>
                   {errors.category && (
                     <span id={`${formIdPrefix}-category-error`} className="form-error">
@@ -349,7 +329,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                     className="form-label flex items-center gap-1.5"
                   >
                     <Car size={14} className="text-gold" aria-hidden="true" />
-                    <span>Preferred Vehicle</span>
+                    <span>Preferred Model</span>
                     <span className="text-gold" aria-hidden="true">*</span>
                   </label>
                   <select
@@ -359,19 +339,12 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                     aria-invalid={Boolean(errors.vehicleId)}
                     aria-describedby={errors.vehicleId ? `${formIdPrefix}-vehicleId-error` : undefined}
                     className={`form-select ${errors.vehicleId ? 'form-input--error' : ''}`}
-                    disabled={!formData.category}
                     required
                   >
-                    <option value="">
-                      {!formData.category
-                        ? 'Select a category first'
-                        : availableVehicles.length === 0
-                        ? 'No vehicles available'
-                        : 'Select a Vehicle'}
-                    </option>
-                    {availableVehicles.map((veh) => (
-                      <option key={veh.id} value={String(veh.id)}>
-                        {veh.fullName}
+                    <option value="">Select Vehicle...</option>
+                    {selectableVehicles.map((v) => (
+                      <option key={v.id} value={String(v.id)}>
+                        {v.fullName} ({v.categoryLabel})
                       </option>
                     ))}
                   </select>
@@ -383,7 +356,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 </div>
               </div>
 
-              {/* Row 4: Pickup Date & Rental Duration */}
+              {/* Row 4: Pickup Date & Duration */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="form-group">
                   <label
@@ -418,7 +391,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                     className="form-label flex items-center gap-1.5"
                   >
                     <Clock size={14} className="text-gold" aria-hidden="true" />
-                    <span>Rental Duration (Days)</span>
+                    <span>Duration (Days)</span>
                     <span className="text-gold" aria-hidden="true">*</span>
                   </label>
                   <input
@@ -426,7 +399,6 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                     type="number"
                     min="1"
                     max="90"
-                    placeholder="1"
                     value={formData.duration}
                     onChange={(e) => handleChange('duration', e.target.value)}
                     aria-invalid={Boolean(errors.duration)}
@@ -442,7 +414,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 </div>
               </div>
 
-              {/* Row 5: Additional Message (Optional) */}
+              {/* Row 5: Notes / Special Requests (Optional) */}
               <div className="form-group">
                 <label
                   htmlFor={`${formIdPrefix}-message`}
@@ -450,37 +422,32 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 >
                   <span className="flex items-center gap-1.5">
                     <MessageSquare size={14} className="text-gold" aria-hidden="true" />
-                    <span>Additional Notes or Requests</span>
+                    <span>Itinerary Notes &amp; Special Requests</span>
                   </span>
-                  <span className="text-meta text-text-muted">Optional</span>
+                  <span className="text-meta text-text-muted font-normal">Optional</span>
                 </label>
                 <textarea
                   id={`${formIdPrefix}-message`}
                   rows={3}
-                  placeholder="Specify airport terminal delivery, child safety seat requirements, or preferred delivery timing..."
+                  placeholder="Specify airport terminal delivery, outstation route plans, additional driver requirements, or custom rental timing..."
                   value={formData.message}
                   onChange={(e) => handleChange('message', e.target.value)}
                   className="form-textarea"
                 />
               </div>
 
-              {/* Mandatory Frontend Demo Notice */}
-              <div className="p-3.5 rounded bg-bg-secondary border border-border-subtle flex items-start gap-2.5 text-xs text-text-muted">
-                <AlertTriangle size={15} className="text-gold shrink-0 mt-0.5" aria-hidden="true" />
-                <p>
-                  <strong className="text-text-secondary font-medium">Demo Mode:</strong> Submitting this form validates input locally and displays an enquiry summary. No network calls or booking commitments are created.
-                </p>
-              </div>
-
-              {/* Submit CTA */}
+              {/* Submission Notice & Submit Button */}
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="btn btn-primary w-full md:w-auto !px-8 cursor-pointer shadow-lg shadow-gold/15 inline-flex items-center justify-center gap-2"
+                  className="btn btn-primary w-full py-4 text-base font-bold shadow-lg shadow-gold/20 flex items-center justify-center gap-2 cursor-pointer group/btn"
                 >
-                  <span>Submit Demo Enquiry</span>
-                  <Send size={15} aria-hidden="true" />
+                  <span>Submit Rental Enquiry</span>
+                  <Send size={16} className="text-charcoal-950 transition-transform duration-200 group-hover/btn:translate-x-1" aria-hidden="true" />
                 </button>
+                <p className="text-center text-xs text-text-muted mt-3">
+                  This form is an illustrative frontend demo. No live payment or external booking transmission is executed.
+                </p>
               </div>
             </form>
           </motion.div>
@@ -490,10 +457,10 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
             key="success"
             role="status"
             aria-live="polite"
-            initial={reduced ? {} : { opacity: 0, scale: 0.98 }}
-            animate={reduced ? {} : { opacity: 1, scale: 1 }}
-            exit={reduced ? {} : { opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
+            initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.98, y: 10 }}
+            animate={shouldReduceMotion ? {} : { opacity: 1, scale: 1, y: 0 }}
+            exit={shouldReduceMotion ? {} : { opacity: 0, scale: 0.98, y: 10 }}
+            transition={{ duration: 0.4, ease: luxuryEase }}
             className="py-4"
           >
             {/* Success Header */}
@@ -507,70 +474,89 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                   Your Enquiry Is Ready.
                 </h3>
                 <p className="text-body text-text-secondary mt-1">
-                  Your details have been validated in this demo. No enquiry has been sent and no booking has been created.
+                  Thank you, <strong className="text-white">{submittedData?.fullName}</strong>.
+                  Your reservation request parameters have been recorded in this demo session.
                 </p>
               </div>
             </div>
 
-            {/* Submitted Summary Grid */}
-            <div className="bg-bg-secondary/70 border border-border rounded-lg p-6 mb-8">
-              <h4 className="text-meta uppercase font-bold text-gold tracking-widest mb-4">
-                Enquiry Summary Details
-              </h4>
+            {/* Structured Summary Card */}
+            <div className="bg-bg-secondary p-5 rounded-lg border border-border space-y-4 mb-6">
+              <span className="text-meta font-mono uppercase text-gold tracking-widest block">
+                Session Enquiry Summary
+              </span>
 
-              <dl className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div>
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Customer Name</dt>
-                  <dd className="text-white font-medium">{submittedData.fullName}</dd>
-                </div>
-
-                <div>
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Contact Details</dt>
-                  <dd className="text-white font-medium">{submittedData.phone} · {submittedData.email}</dd>
+                  <span className="text-meta text-text-muted block">Selected Vehicle</span>
+                  <span className="text-white font-semibold">
+                    {submittedData?.vehicleObj?.fullName || 'N/A'}
+                  </span>
                 </div>
 
                 <div>
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Selected Category</dt>
-                  <dd className="text-white font-medium">{submittedData.category}</dd>
+                  <span className="text-meta text-text-muted block">Vehicle Class</span>
+                  <span className="text-white font-semibold">
+                    {submittedData?.categoryObj?.name || 'N/A'}
+                  </span>
                 </div>
 
                 <div>
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Preferred Vehicle</dt>
-                  <dd className="text-white font-bold text-gold">{submittedData.vehicle}</dd>
+                  <span className="text-meta text-text-muted block">Pickup Date</span>
+                  <span className="text-white font-semibold font-mono">
+                    {submittedData?.pickupDate}
+                  </span>
                 </div>
 
                 <div>
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Pickup Date</dt>
-                  <dd className="text-white font-medium">{submittedData.pickupDate}</dd>
+                  <span className="text-meta text-text-muted block">Duration</span>
+                  <span className="text-white font-semibold">
+                    {submittedData?.duration} Day{parseInt(submittedData?.duration, 10) > 1 ? 's' : ''}
+                  </span>
                 </div>
 
                 <div>
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Rental Duration</dt>
-                  <dd className="text-white font-medium">{submittedData.duration}</dd>
+                  <span className="text-meta text-text-muted block">Contact Phone</span>
+                  <span className="text-white font-semibold font-mono">
+                    {submittedData?.phone}
+                  </span>
                 </div>
 
-                <div className="md:col-span-2 pt-2 border-t border-border-subtle">
-                  <dt className="text-text-muted text-xs uppercase tracking-wider mb-0.5">Additional Notes</dt>
-                  <dd className="text-text-secondary text-sm italic">{submittedData.message}</dd>
+                <div>
+                  <span className="text-meta text-text-muted block">Contact Email</span>
+                  <span className="text-white font-semibold truncate block">
+                    {submittedData?.email}
+                  </span>
                 </div>
-              </dl>
+              </div>
+
+              {submittedData?.message && (
+                <div className="pt-3 border-t border-border-subtle">
+                  <span className="text-meta text-text-muted block mb-1">Itinerary Notes</span>
+                  <p className="text-xs text-text-secondary italic">
+                    &ldquo;{submittedData.message}&rdquo;
+                  </p>
+                </div>
+              )}
             </div>
 
-            {/* Reset / Start New Enquiry Button */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-              <button
-                type="button"
-                onClick={handleReset}
-                className="btn btn-secondary w-full sm:w-auto inline-flex items-center gap-2 cursor-pointer"
-              >
-                <RotateCcw size={15} aria-hidden="true" />
-                <span>Start New Enquiry</span>
-              </button>
-
-              <span className="text-xs text-text-muted text-center sm:text-right">
-                All mock form state held in memory only.
+            {/* Explanatory Notice */}
+            <div className="p-4 rounded bg-bg-card border border-border-subtle text-xs text-text-muted flex items-start gap-3 mb-6">
+              <AlertTriangle size={16} className="text-gold shrink-0 mt-0.5" aria-hidden="true" />
+              <span>
+                <strong>Demonstration Mode:</strong> No actual backend booking transmission was executed. In production, this trigger connects to VELOX reservation dispatch and automated SMS/email confirmation.
               </span>
             </div>
+
+            {/* Reset Button */}
+            <button
+              type="button"
+              onClick={handleReset}
+              className="btn btn-secondary w-full flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <RotateCcw size={15} aria-hidden="true" />
+              <span>Start Another Enquiry</span>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

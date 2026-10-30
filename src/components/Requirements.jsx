@@ -1,11 +1,7 @@
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { FileText, UserCheck, MapPin, Wallet, Award, ClipboardCheck, ShieldCheck, AlertCircle } from 'lucide-react'
 import { rentalRequirements } from '../data/rentalInfo'
-
-function prefersReducedMotion() {
-  if (typeof window === 'undefined') return false
-  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
+import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
 
 const iconMap = {
   FileText,
@@ -17,7 +13,7 @@ const iconMap = {
 }
 
 export default function Requirements() {
-  const reduced = prefersReducedMotion()
+  const shouldReduceMotion = useReducedMotion()
 
   return (
     <section
@@ -27,7 +23,13 @@ export default function Requirements() {
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20">
+        <motion.div
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
+          initial={shouldReduceMotion ? {} : 'hidden'}
+          whileInView={shouldReduceMotion ? {} : 'visible'}
+          viewport={viewportOnce}
+          variants={fadeUpVariant}
+        >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
               <ShieldCheck size={14} className="text-gold" aria-hidden="true" />
@@ -48,7 +50,7 @@ export default function Requirements() {
               Standard Onboarding Criteria
             </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── 6 Requirements Grid (3 cols desktop, 2 cols tablet, 1 col mobile) ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
@@ -59,10 +61,14 @@ export default function Requirements() {
               <motion.article
                 key={req.id}
                 className="card-info group flex flex-col justify-between h-full bg-bg-card border border-border rounded-lg p-6 lg:p-7 transition-all duration-300 hover:border-gold/50 hover:shadow-xl hover:-translate-y-1"
-                initial={reduced ? {} : { opacity: 0, y: 20 }}
-                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+                whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+                viewport={viewportOnce}
+                transition={{
+                  duration: 0.5,
+                  delay: shouldReduceMotion ? 0 : index * 0.07,
+                  ease: luxuryEase,
+                }}
               >
                 <div>
                   {/* Top: Icon + Numbered identifier */}
@@ -103,7 +109,13 @@ export default function Requirements() {
         </div>
 
         {/* ── Transparency & Disclaimer Callout ──────────────── */}
-        <div className="mt-12 p-6 rounded-lg bg-bg-secondary border border-border/80 flex items-start gap-4">
+        <motion.div
+          className="mt-12 p-6 rounded-lg bg-bg-secondary border border-border/80 flex items-start gap-4"
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ duration: 0.5, delay: 0.25, ease: luxuryEase }}
+        >
           <AlertCircle size={20} className="text-gold shrink-0 mt-0.5" aria-hidden="true" />
           <div className="text-body-sm text-text-secondary leading-relaxed">
             <strong className="text-white font-semibold block mb-0.5">
@@ -114,7 +126,7 @@ export default function Requirements() {
             brackets, driving experience stipulations, and security deposit amounts may vary
             depending on the individual rental provider, vehicle category, and local jurisdiction.
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
