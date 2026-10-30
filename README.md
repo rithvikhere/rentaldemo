@@ -48,10 +48,16 @@ car-rental-demo/
 │   │   ├── VehicleCard.jsx  # Reusable card with specs, INR pricing, and enquire action
 │   │   ├── BookingProcess.jsx   # 4-step booking workflow with connector line
 │   │   ├── Requirements.jsx     # 6 rental requirement & eligibility cards
-│   │   └── RentalInformation.jsx # 6 key operational policies & guidance
+│   │   ├── RentalInformation.jsx # 6 key operational policies & guidance
+│   │   ├── FAQ.jsx              # Single-open accordion with accessible ARIA triggers
+│   │   ├── Contact.jsx          # Coordinated 2-column contact & enquiry section
+│   │   ├── ContactInfo.jsx      # Verified/placeholder direct contact channels
+│   │   └── EnquiryForm.jsx      # Client-side validated form with demo success state
 │   ├── data/
 │   │   ├── cars.js          # Centralised vehicle data (10 vehicles, 5 categories, formatINR)
-│   │   └── rentalInfo.js    # Centralised booking steps, requirements, and policy data
+│   │   ├── rentalInfo.js    # Centralised booking steps, requirements, and policy data
+│   │   ├── faqData.js       # Centralised 6-item FAQ dataset
+│   │   └── contactInfo.js   # Centralised contact configuration & channel status
 │   ├── hooks/               # Custom React hooks
 │   ├── design-system.md     # Full design system specification
 │   ├── App.jsx              # Main landing page shell
@@ -98,7 +104,7 @@ Full specification: [`src/design-system.md`](src/design-system.md)
 | 2     | Navbar & Hero Section                | ✅ Complete  |
 | 3     | Vehicle Categories & Fleet Showcase  | ✅ Complete  |
 | 4     | Booking Process & Rental Requirements| ✅ Complete  |
-| 5     | Contact, Enquiry Form & FAQ          | ⬜ Pending   |
+| 5     | Contact, Enquiry Form & FAQ          | ✅ Complete  |
 | 6     | Animations & Smooth Scrolling        | ⬜ Pending   |
 | 7     | Responsive Design & Optimisation     | ⬜ Pending   |
 | 8     | Deployment & Client Presentation     | ⬜ Pending   |
