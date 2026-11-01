@@ -48,33 +48,37 @@ export default function App() {
       {/* ── 1. Navbar ────────────────────────────────────────── */}
       <Navbar />
 
-      <main id="main-content">
-        {/* ── 2. Hero Section (Retains original car photo background) ── */}
-        <Hero />
-
-        {/* ── Continuous Grainient Background (All sections below Hero) ── */}
-        <div className="relative">
-          {/* Grainient Canvas pinned to viewport as background */}
-          <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-            <div className="sticky top-0 w-full h-screen">
-              <Grainient
-                colors={["#000000","#090807","#121212","#232121","#000000"]}
-                angle={46}
-                flow={2}
-                silk={1}
-                grainAmount={0.09}
-                scale={1.2}
-                speed={0}
-                grainSize={0.5}
-                contrast={0.97}
-                saturation={0}
-                stir={0.6}
-              />
-            </div>
+      <main id="main-content" className="relative">
+        {/* ── Fixed Grainient Canvas across viewport ─────────────── */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+          <div className="w-full h-full">
+            <Grainient
+              colors={["#000000","#0a0908","#121212","#1c1b1b","#000000"]}
+              angle={46}
+              flow={1.5}
+              silk={0}
+              grainAmount={0.05}
+              scale={1.2}
+              speed={0}
+              grainAnimated={false}
+              grainSize={0.8}
+              contrast={0.98}
+              saturation={0}
+              stir={0}
+              interactive={false}
+              dpr={1}
+              className="w-full h-full"
+            />
           </div>
+        </div>
 
-          {/* Foreground Sections & Footer */}
-          <div className="relative z-10">
+        {/* ── 2. Hero Section (Retains original car photo background) ── */}
+        <div className="relative z-10">
+          <Hero />
+        </div>
+
+        {/* Foreground Sections & Footer */}
+        <div className="relative z-10">
             {/* ── 3. Vehicle Categories ───────────────────────────── */}
             <Categories onSelectCategory={handleSelectCategory} />
 
@@ -149,7 +153,6 @@ export default function App() {
               </div>
             </footer>
           </div>
-        </div>
       </main>
     </div>
   )
