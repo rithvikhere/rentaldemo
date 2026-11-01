@@ -18,7 +18,7 @@
 
   /* ── Color: Backgrounds ──────────────────────────────────── */
   --color-bg-primary:    #101010;   /* Main dark sections          */
-  --color-bg-secondary:  #181818;   /* Alternate dark sections      */
+  --color-bg-secondary:  #101010;   /* Continuous unified dark flow */
   --color-bg-card:       #202020;   /* Cards and raised surfaces    */
   --color-bg-light:      #F4F3F0;   /* Contrasting light sections   */
   --color-bg-overlay:    rgba(16, 16, 16, 0.72); /* Image overlays */
@@ -164,7 +164,7 @@
 
   /* Backgrounds */
   --v-bg-primary:   #101010;
-  --v-bg-secondary: #181818;
+  --v-bg-secondary: #101010;
   --v-bg-card:      #202020;
   --v-bg-light:     #F4F3F0;
   --v-bg-overlay:   rgba(16, 16, 16, 0.72);
