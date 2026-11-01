@@ -33,15 +33,10 @@ export default function VehicleCard({ vehicle, onEnquire }) {
         )}
 
         {/* Top Badges */}
-        <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none z-10">
+        <div className="absolute top-3 left-3 pointer-events-none z-10">
           <span className="badge badge-gold shadow-sm backdrop-blur-md">
             {vehicle.categoryLabel}
           </span>
-          {vehicle.badge && (
-            <span className="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-[2px] bg-bg-primary/85 text-text-secondary border border-border/80 backdrop-blur-md">
-              {vehicle.badge}
-            </span>
-          )}
         </div>
 
         {/* Bottom subtle gradient on image */}
@@ -52,62 +47,56 @@ export default function VehicleCard({ vehicle, onEnquire }) {
       </div>
 
       {/* ── Vehicle Details Body ─────────────────────────────── */}
-      <div className="card-vehicle__body flex flex-col flex-1 justify-between">
+      <div className="card-vehicle__body flex flex-col flex-1 justify-between p-7 sm:p-8 lg:p-9">
         <div>
           {/* Manufacturer & Model */}
           <div className="mb-2">
-            <span className="text-meta text-text-muted uppercase tracking-widest block mb-1">
+            <span className="text-xs text-text-muted uppercase tracking-widest block mb-1.5 font-medium">
               {vehicle.manufacturer}
             </span>
             <h3
               id={`vehicle-${vehicle.id}-title`}
-              className="text-title font-heading font-bold text-white group-hover:text-gold transition-colors duration-200"
+              className="text-title font-heading font-bold text-white group-hover:text-gold transition-colors duration-200 tracking-tight"
             >
               {vehicle.name}
             </h3>
           </div>
 
           {/* Tagline */}
-          <p className="text-body-sm text-text-secondary line-clamp-1 mb-4">
+          <p className="text-body text-text-secondary line-clamp-1 mb-5">
             {vehicle.tagline}
           </p>
 
           {/* Specifications Row */}
           <div
-            className="grid grid-cols-3 gap-1.5 sm:gap-2 py-3 px-2 sm:px-3 rounded-md bg-bg-secondary/70 border border-border-subtle mb-5"
+            className="flex items-center gap-3 text-sm text-text-muted mb-6 pb-2"
             aria-label="Vehicle specifications"
           >
-            <div className="flex items-center gap-1.5 min-w-0" title={`${vehicle.seats} Passenger Seats`}>
-              <Users size={14} className="text-gold shrink-0" aria-hidden="true" />
-              <span className="text-[11px] sm:text-[12px] text-text-secondary font-medium truncate">
-                {vehicle.seats} Seats
-              </span>
+            <div className="flex items-center gap-1.5" title={`${vehicle.seats} Seats`}>
+              <Users size={14} className="text-gold/80" aria-hidden="true" />
+              <span>{vehicle.seats} Seats</span>
             </div>
-
-            <div className="flex items-center gap-1.5 min-w-0" title={`${vehicle.transmission} Transmission`}>
-              <Sliders size={14} className="text-gold shrink-0" aria-hidden="true" />
-              <span className="text-[11px] sm:text-[12px] text-text-secondary font-medium truncate">
-                {vehicle.transmission}
-              </span>
+            <span className="text-border" aria-hidden="true">·</span>
+            <div className="flex items-center gap-1.5" title={`${vehicle.transmission} Transmission`}>
+              <Sliders size={14} className="text-gold/80" aria-hidden="true" />
+              <span>{vehicle.transmission}</span>
             </div>
-
-            <div className="flex items-center gap-1.5 min-w-0" title={`${vehicle.fuel} Fuel Type`}>
-              <Fuel size={14} className="text-gold shrink-0" aria-hidden="true" />
-              <span className="text-[11px] sm:text-[12px] text-text-secondary font-medium truncate">
-                {vehicle.fuel}
-              </span>
+            <span className="text-border" aria-hidden="true">·</span>
+            <div className="flex items-center gap-1.5" title={`${vehicle.fuel} Fuel`}>
+              <Fuel size={14} className="text-gold/80" aria-hidden="true" />
+              <span>{vehicle.fuel}</span>
             </div>
           </div>
         </div>
 
         {/* ── Footer: Price & Enquire CTA ──────────────────────── */}
-        <div className="pt-4 border-t border-border flex items-end justify-between gap-4 mt-auto">
+        <div className="pt-5 border-t border-border-subtle flex items-end justify-between gap-4 mt-auto">
           <div>
-            <span className="text-[10px] font-semibold text-text-muted uppercase tracking-widest block leading-none mb-1.5">
-              Illustrative Demo Price
+            <span className="text-xs uppercase tracking-widest text-text-muted block mb-1 font-medium">
+              Demo rate
             </span>
             <div className="flex items-baseline gap-1">
-              <span className="font-heading font-extrabold text-xl text-white tracking-tight">
+              <span className="font-heading font-bold text-xl sm:text-2xl text-white">
                 {formatINR(vehicle.pricePerDay)}
               </span>
               <span className="text-xs text-text-muted font-normal">/ day</span>
@@ -117,7 +106,7 @@ export default function VehicleCard({ vehicle, onEnquire }) {
           <button
             type="button"
             onClick={() => onEnquire && onEnquire(vehicle)}
-            className="btn btn-secondary !h-10 !px-4 !text-xs font-semibold group/btn"
+            className="btn btn-secondary !h-11 !px-5 !text-xs font-semibold group/btn"
             aria-label={`Enquire about ${vehicle.fullName}`}
           >
             <span>Enquire</span>
@@ -132,3 +121,4 @@ export default function VehicleCard({ vehicle, onEnquire }) {
     </article>
   )
 }
+

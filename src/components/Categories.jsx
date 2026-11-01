@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { ArrowRight, Compass } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { vehicleCategories } from '../data/cars'
 import { fadeUpVariant, viewportOnce } from '../animations/variants'
 
@@ -19,38 +19,26 @@ export default function Categories({ onSelectCategory }) {
   return (
     <section
       id="categories"
-      className="section-py bg-bg-primary relative border-t border-border-subtle"
+      className="section-py bg-bg-primary relative"
       aria-label="Vehicle Categories"
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
+          className="section-heading"
+          style={{ marginBottom: 'clamp(4rem, 7vw, 6.5rem)' }}
           initial={shouldReduceMotion ? {} : 'hidden'}
           whileInView={shouldReduceMotion ? {} : 'visible'}
           viewport={viewportOnce}
           variants={fadeUpVariant}
         >
-          <div className="section-heading">
-            <span className="eyebrow flex items-center gap-2">
-              <Compass size={14} className="text-gold" aria-hidden="true" />
-              <span>Curated Fleet</span>
-            </span>
-            <span className="accent-rule" />
-            <h2 className="text-headline font-heading font-extrabold text-white mt-1">
-              Vehicle Categories
-            </h2>
-            <p className="text-body text-text-secondary mt-4 max-w-2xl leading-relaxed">
-              Choose from five meticulously selected automotive classes tailored for business
-              itineraries, coastal touring, weekend escapes, and private executive travel.
-            </p>
-          </div>
-
-          <div className="shrink-0">
-            <span className="text-meta text-text-muted uppercase tracking-widest block text-left md:text-right">
-              5 Distinct Classes · 10 Vehicles
-            </span>
-          </div>
+          <span className="eyebrow block mb-3">Curated Fleet</span>
+          <h2 className="text-headline font-heading font-extrabold text-white mt-2 mb-5 sm:mb-6">
+            Vehicle Categories
+          </h2>
+          <p className="text-body text-text-secondary leading-relaxed max-w-2xl">
+            Five distinguished automotive classes tailored for business itineraries, weekend escapes, and private executive travel.
+          </p>
         </motion.div>
 
         {/* ── Editorial Category Grid ────────────────────────── */}
@@ -67,7 +55,7 @@ export default function Categories({ onSelectCategory }) {
             return (
               <motion.article
                 key={category.id}
-                className={`group relative rounded-xl overflow-hidden border border-border bg-bg-card flex flex-col justify-end min-h-[340px] md:min-h-[380px] p-7 lg:p-9 transition-all duration-300 hover:border-gold/60 hover:shadow-2xl ${colSpan}`}
+                className={`group relative rounded-xl overflow-hidden border border-border bg-bg-card flex flex-col justify-end min-h-[380px] md:min-h-[440px] lg:min-h-[480px] p-8 sm:p-10 lg:p-12 transition-all duration-300 hover:border-gold/60 hover:shadow-2xl ${colSpan}`}
                 initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                 viewport={viewportOnce}
@@ -98,22 +86,19 @@ export default function Categories({ onSelectCategory }) {
                   />
                 </div>
 
-                {/* Top Badge & Count */}
+                {/* Top Badge */}
                 <div className="relative z-10 mb-auto flex items-center justify-between">
                   <span className="badge badge-gold backdrop-blur-md">
                     {category.badge}
                   </span>
-                  <span className="text-meta text-offwhite-200/90 font-mono bg-bg-primary/70 px-2.5 py-1 rounded-[2px] border border-border/80 backdrop-blur-md">
-                    {category.count} Vehicles
-                  </span>
                 </div>
 
                 {/* Content Details */}
-                <div className="relative z-10 mt-6">
-                  <h3 className="text-title font-heading font-bold text-white mb-2 group-hover:text-gold transition-colors duration-200">
+                <div className="relative z-10 mt-8">
+                  <h3 className="text-title font-heading font-bold text-white mb-3 group-hover:text-gold transition-colors duration-200 tracking-tight">
                     {category.name}
                   </h3>
-                  <p className="text-body-sm text-text-secondary mb-6 max-w-md line-clamp-2">
+                  <p className="text-body text-text-secondary mb-7 max-w-lg leading-relaxed">
                     {category.description}
                   </p>
 
@@ -123,9 +108,9 @@ export default function Categories({ onSelectCategory }) {
                     className="inline-flex items-center gap-2 text-label font-semibold text-white group-hover:text-gold transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4 rounded-sm"
                     aria-label={`Explore ${category.name} vehicles in fleet`}
                   >
-                    <span>Explore Vehicles</span>
+                    <span>Explore Class</span>
                     <ArrowRight
-                      size={16}
+                      size={15}
                       className="text-gold transition-transform duration-200 group-hover:translate-x-1.5"
                       aria-hidden="true"
                     />

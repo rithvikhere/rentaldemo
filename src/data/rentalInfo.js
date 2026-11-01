@@ -102,22 +102,23 @@ export const rentalPolicies = [
   {
     id: '04',
     title: 'Cancellation',
-    description: 'Review provider-specific terms regarding timeline allowances and modification flexibilities.',
+    description: 'Cancellation and refund conditions depend on the applicable rental agreement. Review them before confirming.',
     iconName: 'RotateCcw',
-    keyPoint: 'Flexible modification subject to vehicle return conditions.',
+    keyPoint: 'Transparent cancellation timeline communicated prior to payment.',
   },
   {
     id: '05',
-    title: 'Outstation Travel',
-    description: 'State crossing permits, toll arrangements, and speed governance guidelines must be pre-arranged.',
-    iconName: 'Route',
-    keyPoint: 'Permitted state borders & transit toll clearances provided.',
+    title: 'Security Deposit',
+    description: 'Confirm the deposit amount, payment conditions, and expected refund timeline with the provider before booking.',
+    iconName: 'Wallet',
+    keyPoint: 'Handled via secure pre-authorization with prompt release on return.',
   },
   {
     id: '06',
-    title: 'Security Deposit',
-    description: 'Pre-authorizations on credit cards are settled upon formal check-in and post-trip vehicle audit.',
-    iconName: 'Wallet',
-    keyPoint: 'Standard collision waiver included; zero-dep options available.',
+    title: 'Outstation Travel',
+    description: 'Travel restrictions, permitted destinations, and additional charges may apply depending on the rental terms.',
+    iconName: 'Route',
+    keyPoint: 'Interstate state-permit assistance and unlimited kilometer packages.',
   },
 ]
+

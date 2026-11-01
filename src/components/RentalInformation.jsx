@@ -1,16 +1,6 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { Fuel, MapPin, Clock, RotateCcw, Wallet, Route, Info } from 'lucide-react'
 import { rentalPolicies } from '../data/rentalInfo'
 import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
-
-const iconMap = {
-  Fuel,
-  MapPin,
-  Clock,
-  RotateCcw,
-  Wallet,
-  Route,
-}
 
 export default function RentalInformation() {
   const shouldReduceMotion = useReducedMotion()
@@ -18,108 +8,60 @@ export default function RentalInformation() {
   return (
     <section
       id="rental-information"
-      className="section-py bg-bg-primary relative border-t border-border-subtle"
+      className="min-h-screen py-36 md:py-48 lg:py-60 flex flex-col justify-center bg-bg-secondary relative"
       aria-label="Rental Information and Policies"
     >
-      <div className="container-velox">
+      <div className="container-velox w-full">
         {/* ── Section Header ─────────────────────────────────── */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 lg:mb-24"
+          className="section-heading mb-20 md:mb-28 lg:mb-36"
           initial={shouldReduceMotion ? {} : 'hidden'}
           whileInView={shouldReduceMotion ? {} : 'visible'}
           viewport={viewportOnce}
           variants={fadeUpVariant}
         >
-          <div className="section-heading">
-            <span className="eyebrow flex items-center gap-2">
-              <Info size={14} className="text-gold" aria-hidden="true" />
-              <span>Rental Information</span>
-            </span>
-            <span className="accent-rule" />
-            <h2 className="text-headline font-heading font-extrabold text-white mt-1">
-              The Details That Matter.
-            </h2>
-            <p className="text-body text-text-secondary mt-4 max-w-2xl leading-relaxed">
-              A few important things to understand before you begin your journey.
-              Review key terms regarding fuel, durations, cancellations, and travel boundaries.
-            </p>
-          </div>
+          {/* 1. Header (with 2-3 lines space below) */}
+          <h2 className="text-display sm:text-5xl lg:text-6xl font-heading font-extrabold text-white mb-10 md:mb-14 lg:mb-16 tracking-tight">
+            The Details That Matter.
+          </h2>
 
-          <div className="shrink-0">
-            <span className="text-meta text-text-muted uppercase tracking-widest block text-left md:text-right">
-              Operational Policies &amp; Guidance
-            </span>
-          </div>
-        </motion.div>
-
-        {/* ── 2-Column Policy Information Grid ───────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {rentalPolicies.map((policy, index) => {
-            const IconComponent = iconMap[policy.iconName] || Info
-
-            return (
-              <motion.article
-                key={policy.id}
-                className="group relative bg-bg-card border border-border rounded-xl p-8 sm:p-9 transition-all duration-300 hover:border-gold/50 hover:bg-bg-card/90 shadow-sm"
-                initial={shouldReduceMotion ? {} : { opacity: 0, y: 18 }}
-                whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-                viewport={viewportOnce}
-                transition={{
-                  duration: 0.5,
-                  delay: shouldReduceMotion ? 0 : index * 0.07,
-                  ease: luxuryEase,
-                }}
-              >
-                <div className="flex items-start gap-5">
-                  {/* Left Number / Icon Column */}
-                  <div className="shrink-0">
-                    <div className="w-12 h-12 rounded-md bg-bg-secondary border border-border flex items-center justify-center text-gold group-hover:border-gold/60 group-hover:bg-gold/10 transition-colors duration-200">
-                      <IconComponent size={22} strokeWidth={1.75} aria-hidden="true" />
-                    </div>
-                    <span className="text-meta font-mono font-bold text-text-muted text-center block mt-2">
-                      {policy.id}
-                    </span>
-                  </div>
-
-                  {/* Right Content Column */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-title font-heading font-bold text-white mb-2 group-hover:text-gold transition-colors duration-200">
-                      {policy.title}
-                    </h3>
-                    <p className="text-body-sm text-text-secondary leading-relaxed mb-4">
-                      {policy.description}
-                    </p>
-
-                    {/* Operational key point */}
-                    <div className="p-3 rounded bg-bg-secondary/60 border border-border-subtle flex items-start gap-2.5 text-[12px] text-text-secondary">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1" aria-hidden="true" />
-                      <span className="leading-snug">{policy.keyPoint}</span>
-                    </div>
-                  </div>
-                </div>
-              </motion.article>
-            )
-          })}
-        </div>
-
-        {/* ── General Informational Disclaimer ───────────────── */}
-        <motion.div
-          className="mt-20 lg:mt-24 p-8 sm:p-9 rounded-xl bg-bg-card border border-border/80 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm"
-          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
-          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-          viewport={viewportOnce}
-          transition={{ duration: 0.5, delay: 0.25, ease: luxuryEase }}
-        >
-          <p className="text-body-sm text-text-muted leading-relaxed">
-            <strong className="text-text-secondary font-medium">Policy Disclaimer:</strong> All policy descriptions above represent general operational parameters. Specific terms, fuel agreements, security deposit rates, and state entry fees must be finalized with your rental concierge prior to booking confirmation.
+          {/* 2. Text below it (with 3-4 lines space above and massive space before the boxes) */}
+          <p className="text-xl sm:text-2xl text-text-secondary leading-relaxed max-w-3xl">
+            Essential policies regarding fuel arrangements, extensions, cancellation terms, and operational boundaries.
           </p>
-          <a
-            href="#contact"
-            className="btn btn-secondary !h-10 !px-4 !text-xs font-semibold shrink-0"
-          >
-            Review Terms With Us
-          </a>
         </motion.div>
+
+        {/* ── 3. Dialogue Boxes (comfortably sized to text, spatially placed) ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 xl:gap-12">
+          {rentalPolicies.map((policy, index) => (
+            <motion.article
+              key={policy.id}
+              className="bg-bg-card border border-border-subtle rounded-2xl p-8 sm:p-10 lg:p-12 transition-all duration-300 hover:border-gold/40 flex flex-col justify-start shadow-xl shadow-black/25"
+              initial={shouldReduceMotion ? {} : { opacity: 0, y: 18 }}
+              whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+              viewport={viewportOnce}
+              transition={{
+                duration: 0.5,
+                delay: shouldReduceMotion ? 0 : index * 0.07,
+                ease: luxuryEase,
+              }}
+            >
+              <h3 className="text-2xl sm:text-[1.65rem] font-heading font-bold text-white mb-4 tracking-tight leading-snug">
+                {policy.title}
+              </h3>
+
+              <p className="text-base sm:text-lg text-text-secondary leading-relaxed mb-6">
+                {policy.description}
+              </p>
+
+              <div className="border-t border-border-subtle pt-5 mt-auto">
+                <p className="text-sm sm:text-base text-text-muted leading-relaxed">
+                  {policy.keyPoint}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   )

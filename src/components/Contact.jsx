@@ -10,45 +10,36 @@ export default function Contact({ preselectedVehicle, onResetVehicle }) {
   return (
     <section
       id="contact"
-      className="section-py bg-bg-primary relative border-t border-border-subtle"
+      className="section-py bg-transparent relative"
       aria-label="Contact and Enquiry"
     >
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-20 lg:mb-24"
+          className="section-heading"
+          style={{ marginBottom: 'clamp(3.5rem, 6vw, 5rem)' }}
           initial={shouldReduceMotion ? {} : 'hidden'}
           whileInView={shouldReduceMotion ? {} : 'visible'}
           viewport={viewportOnce}
           variants={fadeUpVariant}
         >
-          <div className="section-heading">
-            <span className="eyebrow flex items-center gap-2">
-              <Mail size={14} className="text-gold" aria-hidden="true" />
-              <span>Get in Touch</span>
-            </span>
-            <span className="accent-rule" />
-            <h2 className="text-headline font-heading font-extrabold text-white mt-1">
-              Let&apos;s Get You Moving.
-            </h2>
-            <p className="text-body text-text-secondary mt-4 max-w-2xl leading-relaxed">
-              Have a destination in mind? Get in touch with our team and we&apos;ll help you
-              find the right vehicle tailored for your journey and schedule.
-            </p>
-          </div>
-
-          <div className="shrink-0">
-            <span className="text-meta text-text-muted uppercase tracking-widest block text-left md:text-right">
-              Direct Concierge &amp; Enquiries
-            </span>
-          </div>
+          <span className="eyebrow flex items-center gap-2 mb-3">
+            <Mail size={15} className="text-gold" aria-hidden="true" />
+            <span>Get in Touch</span>
+          </span>
+          <h2 className="text-headline font-heading font-extrabold text-white mt-2 mb-5 sm:mb-6">
+            Let&apos;s Get You Moving.
+          </h2>
+          <p className="text-body text-text-secondary leading-relaxed max-w-2xl">
+            Have a destination in mind? Connect with our concierge or submit your itinerary preferences below.
+          </p>
         </motion.div>
 
         {/* ── 2-Column Layout: Contact Details & Form ─────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 xl:gap-16 items-start">
           {/* Left Column: Contact Information */}
           <motion.div
-            className="lg:col-span-5 order-1"
+            className="lg:col-span-4 order-1"
             initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
             whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
             viewport={viewportOnce}
@@ -57,9 +48,9 @@ export default function Contact({ preselectedVehicle, onResetVehicle }) {
             <ContactInfo />
           </motion.div>
 
-          {/* Right Column: Enquiry Form */}
+          {/* Right Column: Enquiry Form (Wider Outside Box) */}
           <motion.div
-            className="lg:col-span-7 order-2"
+            className="lg:col-span-8 order-2"
             initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
             whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
             viewport={viewportOnce}

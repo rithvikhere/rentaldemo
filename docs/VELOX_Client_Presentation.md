@@ -130,3 +130,4 @@
 
 ### Mandatory Disclaimer
 > VELOX is a fictional frontend demonstration created to showcase a premium car-rental website concept. Vehicle listings, prices, contact details and rental policies are illustrative.
+

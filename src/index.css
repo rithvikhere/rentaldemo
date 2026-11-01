@@ -52,21 +52,21 @@
 
   /* ── Typography: Scale ───────────────────────────────────── */
   /* Display — hero headline, only one per page                 */
-  --text-display:    clamp(2.5rem, 6.5vw, 6rem);
+  --text-display:    clamp(3.25rem, 6.5vw, 5.5rem);
   /* Headline — primary section titles                          */
-  --text-headline:   clamp(2rem, 4vw, 3.25rem);
+  --text-headline:   clamp(2.35rem, 4vw, 3.5rem);
   /* Title — subsection or card group titles                    */
-  --text-title:      clamp(1.5rem, 2.5vw, 2rem);
+  --text-title:      clamp(1.375rem, 2vw, 1.875rem);
   /* Subtitle — card headings, feature headings                 */
   --text-subtitle:   clamp(1.125rem, 1.5vw, 1.375rem);
-  /* Body — paragraph text                                      */
-  --text-body:       1rem;          /* 16px                     */
-  /* Body SM — captions, supporting copy                        */
-  --text-body-sm:    0.9375rem;     /* 15px                     */
-  /* Label — UI labels, nav links, buttons                      */
-  --text-label:      0.875rem;      /* 14px                     */
-  /* Meta — specs, badges, uppercase labels                     */
-  --text-meta:       0.75rem;       /* 12px                     */
+  /* Body — paragraph text (16–18px)                            */
+  --text-body:       clamp(1rem, 1.1vw, 1.125rem);
+  /* Body SM — captions, supporting copy (15–16px)              */
+  --text-body-sm:    clamp(0.9375rem, 1vw, 1rem);
+  /* Label — UI labels, nav links, buttons (14–15px)            */
+  --text-label:      clamp(0.875rem, 0.9vw, 0.9375rem);
+  /* Meta — specs, badges, uppercase labels (12–13px)           */
+  --text-meta:       clamp(0.75rem, 0.85vw, 0.8125rem);
 
   /* ── Typography: Weights ─────────────────────────────────── */
   --weight-light:    300;
@@ -79,15 +79,15 @@
   /* ── Typography: Line Heights ────────────────────────────── */
   --leading-tight:   1.1;
   --leading-snug:    1.25;
-  --leading-normal:  1.5;
-  --leading-relaxed: 1.65;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.75;
 
   /* ── Typography: Letter Spacing ──────────────────────────── */
   --tracking-tight:  -0.03em;
   --tracking-normal:  0em;
-  --tracking-wide:    0.04em;
-  --tracking-wider:   0.08em;
-  --tracking-widest:  0.14em;  /* Uppercase metadata labels     */
+  --tracking-wide:    0.03em;
+  --tracking-wider:   0.06em;
+  --tracking-widest:  0.1em;   /* Restrained uppercase letter-spacing */
 
   /* ── Spacing Scale ───────────────────────────────────────── */
   /* Base unit: 4px (0.25rem). All multiples of 4.             */
@@ -105,16 +105,16 @@
   --space-24:  6rem;      /* 96px */
   --space-32:  8rem;      /* 128px */
 
-  /* ── Section Spacing ─────────────────────────────────────── */
-  --section-py-lg: clamp(6.5rem, 10vw, 9.5rem);   /* Generous luxury editorial breathing room */
-  --section-py-md: clamp(5rem, 7.5vw, 7rem);      /* Tighter sections */
-  --section-py-sm: clamp(3rem, 5vw, 4.5rem);      /* Compact blocks */
+  /* ── Section Spacing (Vertical Length) ───────────────────── */
+  --section-py-lg: clamp(8rem, 12vw, 13rem);       /* Generous vertical page length (128–208px) */
+  --section-py-md: clamp(6.5rem, 9.5vw, 10rem);     /* 104–160px */
+  --section-py-sm: clamp(4.5rem, 7vw, 7rem);        /* 72–112px */
 
   /* ── Layout ──────────────────────────────────────────────── */
   --container-max:  1440px;
-  --container-px:   clamp(1.25rem, 5vw, 5rem);  /* responsive gutter */
-  --grid-gap:       1.5rem;
-  --grid-gap-lg:    2rem;
+  --container-px:   clamp(1.5rem, 5vw, 5rem);
+  --grid-gap:       1.75rem;
+  --grid-gap-lg:    2.5rem;
 
   /* ── Border Radius ───────────────────────────────────────── */
   --radius-none: 0;
@@ -129,10 +129,10 @@
   --border-2: 2px;
 
   /* ── Component Heights ───────────────────────────────────── */
-  --btn-h-lg:    3.25rem;   /* 52px — primary CTA              */
-  --btn-h-md:    2.75rem;   /* 44px — standard button          */
-  --btn-h-sm:    2.25rem;   /* 36px — compact button           */
-  --input-h:     3rem;      /* 48px — form fields              */
+  --btn-h-lg:    3.5rem;    /* 56px — primary CTA              */
+  --btn-h-md:    3rem;      /* 48px — standard button          */
+  --btn-h-sm:    2.5rem;    /* 40px — compact button           */
+  --input-h:     3.25rem;   /* 52px — form fields              */
 
   /* ── Z-Index Stack ───────────────────────────────────────── */
   --z-below:    -1;
@@ -330,13 +330,15 @@ ul, ol {
 
 /* Section eyebrow label — sits above a headline */
 .eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: var(--text-meta);
-  font-weight: var(--weight-semibold);
+  font-weight: var(--weight-medium);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;
   color: var(--v-gold);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
 /* ────────────────────────────────────────────────────────────
@@ -356,13 +358,9 @@ ul, ol {
 .section-py-md { padding-block: var(--section-py-md); }
 .section-py-sm { padding-block: var(--section-py-sm); }
 
-/* Accent rule — thin gold line used above section headings */
+/* Accent rule — hidden to eliminate formulaic decorative repetition */
 .accent-rule {
-  display: block;
-  width: 2.5rem;
-  height: 2px;
-  background-color: var(--v-gold);
-  margin-bottom: var(--space-5);
+  display: none;
 }
 
 /* Subtle horizontal divider */
@@ -619,15 +617,15 @@ ul, ol {
 
 /* Vehicle card body */
 .card-vehicle__body {
-  padding: clamp(1.5rem, 2.5vw, 2rem);
+  padding: clamp(1.75rem, 2.75vw, 2.5rem);
 }
 
 /* Information / feature card */
 .card-info {
-  padding: var(--space-8);
+  padding: clamp(1.75rem, 3vw, 2.5rem);
   background-color: var(--v-bg-card);
   border: var(--border-1) solid var(--v-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
 }
 
 /* Badge */
@@ -756,10 +754,10 @@ ul, ol {
    12. SECTION HEADING BLOCK
    ──────────────────────────────────────────────────────────── */
 .section-heading {
-  max-width: 42rem;
+  max-width: 56rem;
 }
 .section-heading--center {
-  max-width: 42rem;
+  max-width: 56rem;
   margin-inline: auto;
   text-align: center;
 }
@@ -997,7 +995,7 @@ ul, ol {
   width: 100%;
 }
 .velox-hero__text {
-  max-width: 44rem;
+  max-width: 56rem;
 }
 .velox-hero__eyebrow {
   display: inline-block;
@@ -1025,11 +1023,11 @@ ul, ol {
 }
 .velox-hero__description {
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  font-size: clamp(1.125rem, 1.4vw, 1.25rem);
   font-weight: var(--weight-regular);
   line-height: var(--leading-relaxed);
   color: var(--v-text-secondary);
-  max-width: 34rem;
+  max-width: 42rem;
   margin-bottom: var(--space-8);
 }
 .velox-hero__ctas {
@@ -1040,7 +1038,7 @@ ul, ol {
 }
 .velox-hero__scroll {
   position: absolute;
-  bottom: 2rem;
+  bottom: 2.5rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -1049,7 +1047,7 @@ ul, ol {
   gap: var(--space-1);
   color: var(--v-text-muted);
   text-decoration: none;
-  font-size: 0.6875rem;
+  font-size: var(--text-meta);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-widest);
   text-transform: uppercase;

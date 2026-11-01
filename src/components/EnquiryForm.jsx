@@ -1,7 +1,7 @@
 import { useState, useMemo, useId } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
-import { CheckCircle2, RotateCcw, AlertTriangle, Send, Calendar, Clock, Car, User, Mail, Phone, MessageSquare } from 'lucide-react'
-import { vehicles, vehicleCategories } from '../data/cars'
+import { CheckCircle2, RotateCcw, Send } from 'lucide-react'
+import { vehicles } from '../data/cars'
 import { luxuryEase } from '../animations/variants'
 
 function getLocalTodayDateString() {
@@ -155,6 +155,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
     if (!validate()) {
       return
     }
@@ -199,7 +200,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
   }
 
   return (
-    <div className="bg-bg-card border border-border rounded-xl p-7 md:p-10 lg:p-12 shadow-2xl relative">
+    <div className="bg-bg-card border border-border-subtle rounded-2xl px-8 sm:px-14 md:px-16 lg:px-20 xl:px-24 py-12 sm:py-16 shadow-2xl relative">
       <AnimatePresence mode="wait">
         {!isSuccess ? (
           /* ── 1. Active Enquiry Form ───────────────────────── */
@@ -210,26 +211,25 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
             exit={shouldReduceMotion ? {} : { opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="mb-8">
-              <span className="eyebrow block mb-1">Interactive Reservation</span>
-              <h3 className="text-headline font-heading font-extrabold text-white">
-                Find Your Perfect Ride.
+            <div className="mb-10 sm:mb-12">
+              <span className="eyebrow block mb-3">Reservation</span>
+              <h3 className="text-title font-heading font-bold text-white mb-3 tracking-tight">
+                Find Your Perfect Ride
               </h3>
-              <p className="text-body text-text-secondary mt-2">
-                Tell us what you&apos;re looking for and our team can help you with your rental enquiry.
+              <p className="text-body text-text-secondary leading-relaxed">
+                Share your journey preferences and our concierge team will promptly assist with your enquiry.
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} noValidate className="space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="space-y-8 sm:space-y-9">
               {/* Row 1: Full Name */}
               <div className="form-group">
                 <label
                   htmlFor={`${formIdPrefix}-fullName`}
-                  className="form-label flex items-center gap-1.5"
+                  className="form-label"
                 >
-                  <User size={14} className="text-gold" aria-hidden="true" />
                   <span>Full Name</span>
-                  <span className="text-gold" aria-hidden="true">*</span>
+                  <span className="text-gold ml-1" aria-hidden="true">*</span>
                 </label>
                 <input
                   id={`${formIdPrefix}-fullName`}
@@ -250,15 +250,14 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
               </div>
 
               {/* Row 2: Phone & Email */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="form-group">
                   <label
                     htmlFor={`${formIdPrefix}-phone`}
-                    className="form-label flex items-center gap-1.5"
+                    className="form-label"
                   >
-                    <Phone size={14} className="text-gold" aria-hidden="true" />
                     <span>Phone Number</span>
-                    <span className="text-gold" aria-hidden="true">*</span>
+                    <span className="text-gold ml-1" aria-hidden="true">*</span>
                   </label>
                   <input
                     id={`${formIdPrefix}-phone`}
@@ -281,11 +280,10 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 <div className="form-group">
                   <label
                     htmlFor={`${formIdPrefix}-email`}
-                    className="form-label flex items-center gap-1.5"
+                    className="form-label"
                   >
-                    <Mail size={14} className="text-gold" aria-hidden="true" />
                     <span>Email Address</span>
-                    <span className="text-gold" aria-hidden="true">*</span>
+                    <span className="text-gold ml-1" aria-hidden="true">*</span>
                   </label>
                   <input
                     id={`${formIdPrefix}-email`}
@@ -307,15 +305,14 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
               </div>
 
               {/* Row 3: Preferred Category & Preferred Vehicle */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="form-group">
                   <label
                     htmlFor={`${formIdPrefix}-category`}
-                    className="form-label flex items-center gap-1.5"
+                    className="form-label"
                   >
-                    <Car size={14} className="text-gold" aria-hidden="true" />
                     <span>Preferred Category</span>
-                    <span className="text-gold" aria-hidden="true">*</span>
+                    <span className="text-gold ml-1" aria-hidden="true">*</span>
                   </label>
                   <select
                     id={`${formIdPrefix}-category`}
@@ -343,11 +340,10 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 <div className="form-group">
                   <label
                     htmlFor={`${formIdPrefix}-vehicleId`}
-                    className="form-label flex items-center gap-1.5"
+                    className="form-label"
                   >
-                    <Car size={14} className="text-gold" aria-hidden="true" />
                     <span>Preferred Vehicle</span>
-                    <span className="text-gold" aria-hidden="true">*</span>
+                    <span className="text-gold ml-1" aria-hidden="true">*</span>
                   </label>
                   <select
                     id={`${formIdPrefix}-vehicleId`}
@@ -381,15 +377,14 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
               </div>
 
               {/* Row 4: Pickup Date & Rental Duration */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="form-group">
                   <label
                     htmlFor={`${formIdPrefix}-pickupDate`}
-                    className="form-label flex items-center gap-1.5"
+                    className="form-label"
                   >
-                    <Calendar size={14} className="text-gold" aria-hidden="true" />
                     <span>Pickup Date</span>
-                    <span className="text-gold" aria-hidden="true">*</span>
+                    <span className="text-gold ml-1" aria-hidden="true">*</span>
                   </label>
                   <input
                     id={`${formIdPrefix}-pickupDate`}
@@ -412,11 +407,10 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 <div className="form-group">
                   <label
                     htmlFor={`${formIdPrefix}-duration`}
-                    className="form-label flex items-center gap-1.5"
+                    className="form-label"
                   >
-                    <Clock size={14} className="text-gold" aria-hidden="true" />
                     <span>Rental Duration (Days)</span>
-                    <span className="text-gold" aria-hidden="true">*</span>
+                    <span className="text-gold ml-1" aria-hidden="true">*</span>
                   </label>
                   <input
                     id={`${formIdPrefix}-duration`}
@@ -445,11 +439,8 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                   htmlFor={`${formIdPrefix}-message`}
                   className="form-label flex items-center justify-between"
                 >
-                  <span className="flex items-center gap-1.5">
-                    <MessageSquare size={14} className="text-gold" aria-hidden="true" />
-                    <span>Additional Notes or Requests</span>
-                  </span>
-                  <span className="text-meta text-text-muted">Optional</span>
+                  <span>Special Requests (Optional)</span>
+                  <span className="text-xs text-text-muted">Max 500 chars</span>
                 </label>
                 <textarea
                   id={`${formIdPrefix}-message`}
@@ -461,19 +452,11 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
                 />
               </div>
 
-              {/* Mandatory Frontend Demo Notice */}
-              <div className="p-3.5 rounded bg-bg-secondary border border-border-subtle flex items-start gap-2.5 text-xs text-text-muted">
-                <AlertTriangle size={15} className="text-gold shrink-0 mt-0.5" aria-hidden="true" />
-                <p>
-                  <strong className="text-text-secondary font-medium">Demo Mode:</strong> Submitting this form validates input locally and displays an enquiry summary. No network calls or booking commitments are created.
-                </p>
-              </div>
-
               {/* Submit CTA */}
-              <div className="pt-2">
+              <div className="pt-2 pb-2">
                 <button
                   type="submit"
-                  className="btn btn-primary w-full md:w-auto !px-8 cursor-pointer shadow-lg shadow-gold/15 inline-flex items-center justify-center gap-2"
+                  className="btn btn-primary w-full md:w-auto !px-9 !py-4 cursor-pointer shadow-lg shadow-gold/15 inline-flex items-center justify-center gap-2"
                 >
                   <span>Submit Demo Enquiry</span>
                   <Send size={15} aria-hidden="true" />

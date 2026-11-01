@@ -46,3 +46,4 @@ export const contactConfig = {
     placeholderNote: 'WhatsApp concierge channel to be confirmed',
   },
 }
+

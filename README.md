@@ -75,7 +75,7 @@ npm run lint
 ### Production Build & Preview
 ```bash
 npm run build
-# Generates minified static assets in dist/ (~750ms)
+# Generates minified static assets in dist/ (~900ms)
 
 npm run preview
 # Serves local production build at http://localhost:4173
@@ -87,6 +87,9 @@ npm run preview
 
 ```
 rentaldemo/
+├── .github/
+│   └── workflows/
+│       └── deploy.yml          # Automated CI/CD build & gh-pages deployment
 ├── docs/
 │   ├── screenshots/            # 10 verified browser screenshots (Desktop, Tablet, Mobile)
 │   ├── VELOX_Client_Presentation.md   # 8-slide executive brief
@@ -138,7 +141,7 @@ rentaldemo/
 - **Theme:** Dark Luxury × Modern Minimalism × Automotive Editorial
 - **Obsidian Dark Palette:**
   - Primary Background: `#101010`
-  - Secondary Surface: `#101010`
+  - Secondary Surface: `#181818`
   - Card Platter: `#202020`
   - Accent Gold: `#C6A875` (Hover: `#D9BF96`, Active: `#A8894E`)
   - Border: `#303030`
@@ -149,9 +152,14 @@ rentaldemo/
 
 ---
 
-## 🚀 Deployment via Vercel
+## 🚀 Deployment Platforms
 
-A turn-key `vercel.json` configuration is included at root:
+### 1. Active Deployment: GitHub Pages
+- **URL:** [https://rithvikhere.github.io/rentaldemo/](https://rithvikhere.github.io/rentaldemo/)
+- Automated on every commit to `main` via `.github/workflows/deploy.yml` with `peaceiris/actions-gh-pages@v4`.
+
+### 2. Turn-Key Deployment: Vercel
+A ready-to-deploy `vercel.json` configuration is provided in the repository root:
 ```json
 {
   "buildCommand": "npm run build",
@@ -162,12 +170,27 @@ A turn-key `vercel.json` configuration is included at root:
   ]
 }
 ```
-
-**Steps to deploy directly on Vercel:**
-1. Open [vercel.com/new](https://vercel.com/new).
-2. Connect your GitHub account and import `rithvikhere/rentaldemo`.
-3. Vercel automatically detects the Vite framework and settings.
+**To deploy to Vercel in 1 click:**
+1. Navigate to [https://vercel.com/new](https://vercel.com/new).
+2. Select and import the `rithvikhere/rentaldemo` repository.
+3. Vercel automatically detects the Vite framework, `npm run build` command, and `dist` output directory.
 4. Click **Deploy**.
+
+---
+
+## 📋 Development Phases History
+
+| Phase | Description | Status |
+| :---: | :--- | :---: |
+| **0** | Project Setup & Architecture | ✅ Complete |
+| **1** | UI/UX Planning & Design System | ✅ Complete |
+| **2** | Navbar & Hero Section | ✅ Complete |
+| **3** | Vehicle Categories & Fleet Showcase | ✅ Complete |
+| **4** | Booking Process & Rental Requirements | ✅ Complete |
+| **5** | Contact, Enquiry Form & FAQ | ✅ Complete |
+| **6** | Animations & Smooth Scrolling | ✅ Complete |
+| **7** | Responsive Design & Optimisation | ✅ Complete |
+| **8** | Deployment, Final Verification & Client Presentation | ✅ Complete |
 
 ---
 
