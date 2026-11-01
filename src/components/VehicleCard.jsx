@@ -17,6 +17,8 @@ export default function VehicleCard({ vehicle, onEnquire }) {
             src={vehicle.image}
             alt={vehicle.imageAlt || `${vehicle.fullName} luxury rental`}
             loading="lazy"
+            width="900"
+            height="562"
             className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
             onError={() => setImgError(true)}
           />
@@ -72,26 +74,26 @@ export default function VehicleCard({ vehicle, onEnquire }) {
 
           {/* Specifications Row */}
           <div
-            className="grid grid-cols-3 gap-2 py-3 px-3 rounded-md bg-bg-secondary/70 border border-border-subtle mb-5"
+            className="grid grid-cols-3 gap-1.5 sm:gap-2 py-3 px-2 sm:px-3 rounded-md bg-bg-secondary/70 border border-border-subtle mb-5"
             aria-label="Vehicle specifications"
           >
             <div className="flex items-center gap-1.5 min-w-0" title={`${vehicle.seats} Passenger Seats`}>
               <Users size={14} className="text-gold shrink-0" aria-hidden="true" />
-              <span className="text-[12px] text-text-secondary font-medium truncate">
+              <span className="text-[11px] sm:text-[12px] text-text-secondary font-medium truncate">
                 {vehicle.seats} Seats
               </span>
             </div>
 
             <div className="flex items-center gap-1.5 min-w-0" title={`${vehicle.transmission} Transmission`}>
               <Sliders size={14} className="text-gold shrink-0" aria-hidden="true" />
-              <span className="text-[12px] text-text-secondary font-medium truncate">
+              <span className="text-[11px] sm:text-[12px] text-text-secondary font-medium truncate">
                 {vehicle.transmission}
               </span>
             </div>
 
             <div className="flex items-center gap-1.5 min-w-0" title={`${vehicle.fuel} Fuel Type`}>
               <Fuel size={14} className="text-gold shrink-0" aria-hidden="true" />
-              <span className="text-[12px] text-text-secondary font-medium truncate">
+              <span className="text-[11px] sm:text-[12px] text-text-secondary font-medium truncate">
                 {vehicle.fuel}
               </span>
             </div>

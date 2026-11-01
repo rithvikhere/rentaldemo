@@ -91,9 +91,9 @@ export default function RentalInformation() {
                     </p>
 
                     {/* Operational key point */}
-                    <div className="p-3 rounded bg-bg-secondary/60 border border-border-subtle flex items-center gap-2 text-[12px] text-text-secondary">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true" />
-                      <span className="truncate">{policy.keyPoint}</span>
+                    <div className="p-3 rounded bg-bg-secondary/60 border border-border-subtle flex items-start gap-2.5 text-[12px] text-text-secondary">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1" aria-hidden="true" />
+                      <span className="leading-snug">{policy.keyPoint}</span>
                     </div>
                   </div>
                 </div>

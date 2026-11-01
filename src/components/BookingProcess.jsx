@@ -131,7 +131,7 @@ export default function BookingProcess() {
           </div>
           <a
             href="#contact"
-            className="text-label text-gold hover:text-gold-light inline-flex items-center gap-1.5 font-semibold transition-colors shrink-0 group"
+            className="text-label text-gold hover:text-gold-light inline-flex items-center gap-1.5 font-semibold transition-colors shrink-0 group focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 rounded-sm"
           >
             <span>Ask an Enquiry Specialist</span>
             <ArrowRight

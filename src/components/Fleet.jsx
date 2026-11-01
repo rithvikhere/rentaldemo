@@ -86,7 +86,7 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
                   aria-selected={isActive}
                   aria-controls="fleet-grid"
                   onClick={() => onSelectCategory && onSelectCategory(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-label font-medium transition-all duration-200 shrink-0 cursor-pointer ${
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-label font-medium transition-all duration-200 shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 ${
                     isActive
                       ? 'bg-gold text-charcoal-950 font-semibold shadow-md shadow-gold/20 scale-[1.02]'
                       : 'bg-bg-card text-text-secondary border border-border hover:border-gold/50 hover:text-white'
