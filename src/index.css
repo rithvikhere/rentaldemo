@@ -1,47 +1,219 @@
+/* ============================================================
+   VELOX — Premium Car Rental
+   Global Stylesheet & Design System Tokens
+   Phase 1 — UI/UX Planning & Design System
+
+   Stack: Tailwind CSS v4 (@tailwindcss/vite)
+   Approach: @theme block registers all tokens as Tailwind
+   utilities AND as CSS custom properties simultaneously.
+   No tailwind.config.js needed with v4.
+   ============================================================ */
+
 @import "tailwindcss";
 
-/* Design Tokens */
+/* ────────────────────────────────────────────────────────────
+   1. DESIGN TOKENS  (@theme → Tailwind utilities + CSS vars)
+   ──────────────────────────────────────────────────────────── */
 @theme {
-  /* Colors */
-  --color-charcoal-950: #0a0a0b;
-  --color-charcoal-900: #111113;
-  --color-charcoal-800: #1a1a1e;
-  --color-charcoal-700: #242428;
-  --color-charcoal-600: #2e2e34;
-  --color-charcoal-500: #3d3d45;
-  --color-graphite-400: #5a5a64;
-  --color-graphite-300: #78788a;
 
-  --color-offwhite-50:  #faf9f7;
-  --color-offwhite-100: #f0ede8;
-  --color-offwhite-200: #dbd6ce;
+  /* ── Color: Backgrounds ──────────────────────────────────── */
+  --color-bg-primary:    #101010;   /* Main dark sections          */
+  --color-bg-secondary:  #181818;   /* Alternate dark sections      */
+  --color-bg-card:       #202020;   /* Cards and raised surfaces    */
+  --color-bg-light:      #F4F3F0;   /* Contrasting light sections   */
+  --color-bg-overlay:    rgba(16, 16, 16, 0.72); /* Image overlays */
 
-  --color-gold-400: #d4af6a;
-  --color-gold-500: #c9a84c;
-  --color-gold-600: #b8922e;
+  /* ── Color: Text ─────────────────────────────────────────── */
+  --color-text-primary:  #FFFFFF;   /* Headings and main content    */
+  --color-text-secondary:#A3A3A3;   /* Supporting / muted text      */
+  --color-text-dark:     #171717;   /* Content on light backgrounds */
+  --color-text-muted:    #6B6B6B;   /* Placeholders, metadata       */
 
-  /* Typography */
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-sans:    'Inter', system-ui, sans-serif;
+  /* ── Color: Accent ───────────────────────────────────────── */
+  --color-gold:          #C6A875;   /* Primary accent               */
+  --color-gold-light:    #D9BF96;   /* Hover / lighter state        */
+  --color-gold-dark:     #A8894E;   /* Active / pressed state       */
+  --color-gold-subtle:   rgba(198, 168, 117, 0.12); /* Ghost tints */
 
-  /* Spacing */
-  --spacing-section: 6rem;
+  /* ── Color: Border ───────────────────────────────────────── */
+  --color-border:        #303030;   /* Standard separator           */
+  --color-border-subtle: #222222;   /* Very subtle dividers         */
+  --color-border-focus:  #C6A875;   /* Keyboard focus ring          */
+
+  /* ── Color: State ────────────────────────────────────────── */
+  --color-success:       #4CAF7D;
+  --color-error:         #E05C5C;
+  --color-warning:       #E0A94A;
+
+  /* ── Typography: Font Families ───────────────────────────── */
+  --font-heading: 'Manrope', system-ui, sans-serif;
+  --font-body:    'Inter',   system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'Cascadia Code', Consolas, monospace;
+
+  /* ── Typography: Scale ───────────────────────────────────── */
+  /* Display — hero headline, only one per page                 */
+  --text-display:    clamp(2.5rem, 6.5vw, 6rem);
+  /* Headline — primary section titles                          */
+  --text-headline:   clamp(2rem, 4vw, 3.25rem);
+  /* Title — subsection or card group titles                    */
+  --text-title:      clamp(1.5rem, 2.5vw, 2rem);
+  /* Subtitle — card headings, feature headings                 */
+  --text-subtitle:   clamp(1.125rem, 1.5vw, 1.375rem);
+  /* Body — paragraph text                                      */
+  --text-body:       1rem;          /* 16px                     */
+  /* Body SM — captions, supporting copy                        */
+  --text-body-sm:    0.9375rem;     /* 15px                     */
+  /* Label — UI labels, nav links, buttons                      */
+  --text-label:      0.875rem;      /* 14px                     */
+  /* Meta — specs, badges, uppercase labels                     */
+  --text-meta:       0.75rem;       /* 12px                     */
+
+  /* ── Typography: Weights ─────────────────────────────────── */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extrabold:800;
+
+  /* ── Typography: Line Heights ────────────────────────────── */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+
+  /* ── Typography: Letter Spacing ──────────────────────────── */
+  --tracking-tight:  -0.03em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.04em;
+  --tracking-wider:   0.08em;
+  --tracking-widest:  0.14em;  /* Uppercase metadata labels     */
+
+  /* ── Spacing Scale ───────────────────────────────────────── */
+  /* Base unit: 4px (0.25rem). All multiples of 4.             */
+  --space-1:   0.25rem;   /*  4px */
+  --space-2:   0.5rem;    /*  8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+
+  /* ── Section Spacing ─────────────────────────────────────── */
+  --section-py-lg: clamp(5rem, 8vw, 7.5rem);   /* primary sections  */
+  --section-py-md: clamp(3.5rem, 6vw, 5rem);   /* tighter sections  */
+  --section-py-sm: clamp(2.5rem, 4vw, 3.5rem); /* compact blocks    */
+
+  /* ── Layout ──────────────────────────────────────────────── */
+  --container-max:  1440px;
+  --container-px:   clamp(1.25rem, 5vw, 5rem);  /* responsive gutter */
+  --grid-gap:       1.5rem;
+  --grid-gap-lg:    2rem;
+
+  /* ── Border Radius ───────────────────────────────────────── */
+  --radius-none: 0;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-xl:   12px;
+  --radius-full: 9999px;
+
+  /* ── Border Width ────────────────────────────────────────── */
+  --border-1: 1px;
+  --border-2: 2px;
+
+  /* ── Component Heights ───────────────────────────────────── */
+  --btn-h-lg:    3.25rem;   /* 52px — primary CTA              */
+  --btn-h-md:    2.75rem;   /* 44px — standard button          */
+  --btn-h-sm:    2.25rem;   /* 36px — compact button           */
+  --input-h:     3rem;      /* 48px — form fields              */
+
+  /* ── Z-Index Stack ───────────────────────────────────────── */
+  --z-below:    -1;
+  --z-base:      0;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-overlay:  300;
+  --z-modal:    400;
+  --z-toast:    500;
+
+  /* ── Transition ──────────────────────────────────────────── */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-enter:  600ms;
+
 }
 
-/* Global Base */
+/* ────────────────────────────────────────────────────────────
+   2. SEMANTIC CSS CUSTOM PROPERTIES
+   Expose tokens as plain CSS vars for direct use in components
+   without Tailwind class syntax (e.g., inline styles, Canvas).
+   ──────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --v-bg-primary:   #101010;
+  --v-bg-secondary: #181818;
+  --v-bg-card:      #202020;
+  --v-bg-light:     #F4F3F0;
+  --v-bg-overlay:   rgba(16, 16, 16, 0.72);
+
+  /* Text */
+  --v-text-primary:   #FFFFFF;
+  --v-text-secondary: #A3A3A3;
+  --v-text-dark:      #171717;
+  --v-text-muted:     #6B6B6B;
+
+  /* Accent */
+  --v-gold:         #C6A875;
+  --v-gold-light:   #D9BF96;
+  --v-gold-dark:    #A8894E;
+  --v-gold-subtle:  rgba(198, 168, 117, 0.12);
+
+  /* Border */
+  --v-border:       #303030;
+  --v-border-subtle:#222222;
+  --v-border-focus: #C6A875;
+
+  /* State */
+  --v-success: #4CAF7D;
+  --v-error:   #E05C5C;
+  --v-warning: #E0A94A;
+}
+
+/* ────────────────────────────────────────────────────────────
+   3. GLOBAL BASE
+   ──────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
+  font-size: 16px;
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem; /* offset for fixed navbar */
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  margin: 0;
-  background-color: var(--color-charcoal-900);
-  color: var(--color-offwhite-50);
-  font-family: var(--font-sans);
+  background-color: var(--v-bg-primary);
+  color: var(--v-text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -49,35 +221,880 @@ body {
 
 #root {
   width: 100%;
+  isolation: isolate;
 }
 
-/* Typography Utilities */
-.font-display {
-  font-family: var(--font-display);
-}
-
-/* Accent Line */
-.accent-line {
+img, video {
   display: block;
-  width: 3rem;
-  height: 2px;
-  background-color: var(--color-gold-500);
-}
-
-/* Smooth Image Loading */
-img {
   max-width: 100%;
   height: auto;
 }
 
-/* Reduced Motion */
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ────────────────────────────────────────────────────────────
+   4. TYPOGRAPHY UTILITY CLASSES
+   ──────────────────────────────────────────────────────────── */
+
+/* Font families */
+.font-heading { font-family: 'Manrope', system-ui, sans-serif; }
+.font-body    { font-family: 'Inter',   system-ui, sans-serif; }
+
+/* Display — single-use hero headline */
+.text-display {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: var(--text-display);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--v-text-primary);
+}
+
+/* Section headline */
+.text-headline {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: var(--text-headline);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--v-text-primary);
+}
+
+/* Subsection / card group title */
+.text-title {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: var(--text-title);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--v-text-primary);
+}
+
+/* Card heading */
+.text-subtitle {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: var(--text-subtitle);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  color: var(--v-text-primary);
+}
+
+/* Body paragraph */
+.text-body {
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--v-text-secondary);
+}
+
+/* Small body / captions */
+.text-body-sm {
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-normal);
+  color: var(--v-text-secondary);
+}
+
+/* UI label — buttons, nav links */
+.text-label {
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  line-height: 1;
+  letter-spacing: var(--tracking-normal);
+}
+
+/* Metadata — specs, categories, uppercase badges */
+.text-meta {
+  font-size: var(--text-meta);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--v-text-muted);
+}
+
+/* Gold accent text */
+.text-gold { color: var(--v-gold); }
+
+/* Section eyebrow label — sits above a headline */
+.eyebrow {
+  display: inline-block;
+  font-size: var(--text-meta);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--v-gold);
+  margin-bottom: var(--space-4);
+}
+
+/* ────────────────────────────────────────────────────────────
+   5. LAYOUT UTILITIES
+   ──────────────────────────────────────────────────────────── */
+
+/* Centered content container */
+.container-velox {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-px);
+}
+
+/* Section padding variants */
+.section-py    { padding-block: var(--section-py-lg); }
+.section-py-md { padding-block: var(--section-py-md); }
+.section-py-sm { padding-block: var(--section-py-sm); }
+
+/* Accent rule — thin gold line used above section headings */
+.accent-rule {
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background-color: var(--v-gold);
+  margin-bottom: var(--space-5);
+}
+
+/* Subtle horizontal divider */
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--v-border);
+}
+
+/* ────────────────────────────────────────────────────────────
+   6. BUTTON COMPONENT CLASSES
+   ──────────────────────────────────────────────────────────── */
+
+/* Base shared across all button variants */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  height: var(--btn-h-md);
+  padding-inline: var(--space-6);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  border-radius: var(--radius-md);
+  border: var(--border-1) solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    color            var(--duration-base) var(--ease-out),
+    border-color     var(--duration-base) var(--ease-out),
+    box-shadow       var(--duration-base) var(--ease-out),
+    opacity          var(--duration-base) var(--ease-out);
+  white-space: nowrap;
+  user-select: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Primary — gold fill, used for booking / enquiry CTAs */
+.btn-primary {
+  height: var(--btn-h-lg);
+  padding-inline: var(--space-8);
+  background-color: var(--v-gold);
+  color: #111111;
+  border-color: var(--v-gold);
+  font-weight: var(--weight-semibold);
+}
+.btn-primary:hover {
+  background-color: var(--v-gold-light);
+  border-color: var(--v-gold-light);
+}
+.btn-primary:active {
+  background-color: var(--v-gold-dark);
+  border-color: var(--v-gold-dark);
+}
+.btn-primary:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 3px;
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Secondary — ghost outline, used for "Learn more" / nav CTAs */
+.btn-secondary {
+  background-color: transparent;
+  color: var(--v-text-primary);
+  border-color: var(--v-border);
+}
+.btn-secondary:hover {
+  border-color: var(--v-gold);
+  color: var(--v-gold);
+}
+.btn-secondary:active {
+  border-color: var(--v-gold-dark);
+  color: var(--v-gold-dark);
+}
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 3px;
+}
+.btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Text button — inline links / minimal actions */
+.btn-text {
+  height: auto;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--v-gold);
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-normal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--duration-base) var(--ease-out),
+              color var(--duration-base) var(--ease-out);
+}
+.btn-text:hover {
+  text-decoration-color: var(--v-gold-light);
+  color: var(--v-gold-light);
+}
+.btn-text:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ────────────────────────────────────────────────────────────
+   7. FORM ELEMENT CLASSES
+   ──────────────────────────────────────────────────────────── */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-label {
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  color: var(--v-text-secondary);
+  letter-spacing: var(--tracking-normal);
+}
+
+.form-input,
+.form-textarea {
+  width: 100%;
+  height: var(--input-h);
+  padding-inline: var(--space-4);
+  background-color: var(--v-bg-card);
+  color: var(--v-text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-body);
+  border: var(--border-1) solid var(--v-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow   var(--duration-base) var(--ease-out);
+  -webkit-appearance: none;
+}
+.form-select {
+  width: 100%;
+  height: var(--input-h);
+  padding-left: var(--space-4);
+  padding-right: 2.75rem;
+  background-color: var(--v-bg-card);
+  color: var(--v-text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-body);
+  border: var(--border-1) solid var(--v-border);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow   var(--duration-base) var(--ease-out);
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C6A875' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.125rem;
+  cursor: pointer;
+}
+.form-textarea {
+  height: auto;
+  min-height: 8rem;
+  padding-block: var(--space-4);
+  resize: vertical;
+}
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: var(--v-text-muted);
+}
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: var(--v-gold);
+  box-shadow: 0 0 0 3px var(--v-gold-subtle);
+}
+.form-input:disabled,
+.form-textarea:disabled,
+.form-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Validation states */
+.form-input--error  { border-color: var(--v-error); }
+.form-input--success{ border-color: var(--v-success); }
+
+.form-hint {
+  font-size: var(--text-meta);
+  color: var(--v-text-muted);
+}
+.form-error {
+  font-size: var(--text-meta);
+  color: var(--v-error);
+  font-weight: var(--weight-medium);
+}
+.form-success {
+  font-size: var(--text-meta);
+  color: var(--v-success);
+  font-weight: var(--weight-medium);
+}
+
+/* ────────────────────────────────────────────────────────────
+   8. CARD COMPONENT CLASSES
+   ──────────────────────────────────────────────────────────── */
+
+/* Vehicle card */
+.card-vehicle {
+  background-color: var(--v-bg-card);
+  border: var(--border-1) solid var(--v-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    transform    var(--duration-slow) var(--ease-out),
+    box-shadow   var(--duration-slow) var(--ease-out);
+}
+.card-vehicle:hover {
+  border-color: rgba(198, 168, 117, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+}
+
+/* Vehicle card image container — 16:9 aspect */
+.card-vehicle__image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: var(--v-bg-secondary);
+}
+.card-vehicle__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+.card-vehicle:hover .card-vehicle__image img {
+  transform: scale(1.04);
+}
+
+/* Vehicle card body */
+.card-vehicle__body {
+  padding: var(--space-6);
+}
+
+/* Information / feature card */
+.card-info {
+  padding: var(--space-8);
+  background-color: var(--v-bg-card);
+  border: var(--border-1) solid var(--v-border);
+  border-radius: var(--radius-lg);
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  padding-inline: var(--space-3);
+  font-size: var(--text-meta);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+}
+.badge-gold {
+  background-color: var(--v-gold-subtle);
+  color: var(--v-gold);
+  border: var(--border-1) solid rgba(198,168,117,0.25);
+}
+
+/* ────────────────────────────────────────────────────────────
+   9. IMAGE CONTAINER UTILITIES
+   ──────────────────────────────────────────────────────────── */
+
+/* Hero — full-bleed cinematic image */
+.img-hero {
+  position: relative;
+  width: 100%;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+}
+.img-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Standard aspect containers */
+.img-16-9  { aspect-ratio: 16/9; }
+.img-4-3   { aspect-ratio: 4/3;  }
+.img-3-2   { aspect-ratio: 3/2;  }
+.img-square{ aspect-ratio: 1/1;  }
+
+/* Image overlay gradient (bottom-up dark) */
+.img-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(16,16,16,0.9) 0%,
+    rgba(16,16,16,0.4) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* ────────────────────────────────────────────────────────────
+   10. ICON UTILITIES
+   ──────────────────────────────────────────────────────────── */
+.icon-sm { width: 1rem;    height: 1rem;   flex-shrink: 0; }
+.icon-md { width: 1.25rem; height: 1.25rem;flex-shrink: 0; }
+.icon-lg { width: 1.5rem;  height: 1.5rem; flex-shrink: 0; }
+.icon-xl { width: 2rem;    height: 2rem;   flex-shrink: 0; }
+
+/* Icon container — circle with subtle border */
+.icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  border: var(--border-1) solid var(--v-border);
+  background-color: var(--v-bg-card);
+  color: var(--v-gold);
+  flex-shrink: 0;
+}
+
+/* ────────────────────────────────────────────────────────────
+   11. FAQ ACCORDION
+   ──────────────────────────────────────────────────────────── */
+.faq-item {
+  border-bottom: var(--border-1) solid var(--v-border);
+}
+.faq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-block: var(--space-6);
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: var(--text-body);
+  font-weight: var(--weight-medium);
+  color: var(--v-text-primary);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-out);
+}
+.faq-trigger:hover { color: var(--v-gold); }
+.faq-trigger:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+.faq-chevron {
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-out);
+  color: var(--v-gold);
+}
+.faq-item[data-open="true"] .faq-chevron {
+  transform: rotate(180deg);
+}
+.faq-body {
+  padding-bottom: var(--space-6);
+  color: var(--v-text-secondary);
+  font-size: var(--text-body-sm);
+  line-height: var(--leading-relaxed);
+}
+
+/* ────────────────────────────────────────────────────────────
+   12. SECTION HEADING BLOCK
+   ──────────────────────────────────────────────────────────── */
+.section-heading {
+  max-width: 42rem;
+}
+.section-heading--center {
+  max-width: 42rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.section-heading--center .accent-rule {
+  margin-inline: auto;
+}
+
+/* ────────────────────────────────────────────────────────────
+   13. NAVBAR COMPONENT STYLES
+   ──────────────────────────────────────────────────────────── */
+.velox-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  transition:
+    background-color var(--duration-slow) var(--ease-out),
+    border-color var(--duration-slow) var(--ease-out),
+    backdrop-filter var(--duration-slow) var(--ease-out),
+    box-shadow var(--duration-slow) var(--ease-out);
+}
+.velox-nav--top {
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+}
+.velox-nav--scrolled {
+  background-color: rgba(16, 16, 16, 0.92);
+  border-bottom: 1px solid var(--v-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+.velox-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5rem;
+}
+.velox-nav__wordmark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  user-select: none;
+}
+.velox-nav__wordmark-rule {
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background-color: var(--v-gold);
+}
+.velox-nav__wordmark-text {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: var(--weight-extrabold);
+  letter-spacing: -0.02em;
+  color: var(--v-text-primary);
+}
+.velox-nav__wordmark:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+.velox-nav__links {
+  display: none;
+  align-items: center;
+  gap: var(--space-8);
+}
+@media (min-width: 768px) {
+  .velox-nav__links {
+    display: flex;
+  }
+}
+.velox-nav__link {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: var(--text-label);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-wide);
+  color: var(--v-text-secondary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.velox-nav__link:hover {
+  color: var(--v-gold);
+}
+.velox-nav__link:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+.velox-nav__cta {
+  display: none;
+}
+@media (min-width: 768px) {
+  .velox-nav__cta {
+    display: inline-flex;
+  }
+}
+.velox-nav__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--v-text-primary);
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-2);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+}
+.velox-nav__toggle:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 2px;
+}
+@media (min-width: 768px) {
+  .velox-nav__toggle {
+    display: none;
+  }
+}
+.velox-nav__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.velox-nav__drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--v-bg-secondary);
+  border-bottom: 1px solid var(--v-border);
+  padding: var(--space-6);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+}
+.velox-nav__drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--v-border-subtle);
+}
+.velox-nav__drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+.velox-nav__drawer-link {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: var(--weight-medium);
+  color: var(--v-text-primary);
+  padding-block: var(--space-2);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+.velox-nav__drawer-link:hover {
+  color: var(--v-gold);
+}
+.velox-nav__drawer-link:focus-visible {
+  outline: 2px solid var(--v-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Accessible Skip-to-content link */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 1000;
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--v-gold);
+  color: #111111;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-label);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: top 0.2s ease-out;
+}
+.skip-to-content:focus {
+  top: 1rem;
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+/* ────────────────────────────────────────────────────────────
+   14. HERO COMPONENT STYLES
+   ──────────────────────────────────────────────────────────── */
+.velox-hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: 6rem;
+  padding-bottom: 5rem;
+  overflow: hidden;
+  background-color: var(--v-bg-primary);
+}
+.velox-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.velox-hero__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+.velox-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(16, 16, 16, 0.98) 0%,
+    rgba(16, 16, 16, 0.75) 45%,
+    rgba(16, 16, 16, 0.45) 80%,
+    rgba(16, 16, 16, 0.75) 100%
+  );
+  pointer-events: none;
+}
+.velox-hero__content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+.velox-hero__text {
+  max-width: 44rem;
+}
+.velox-hero__eyebrow {
+  display: inline-block;
+  font-size: var(--text-meta);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--v-gold);
+  margin-bottom: var(--space-4);
+}
+.velox-hero__headline {
+  font-family: 'Manrope', system-ui, sans-serif;
+  font-size: var(--text-display);
+  font-weight: var(--weight-extrabold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--v-text-primary);
+  margin-bottom: var(--space-6);
+}
+.velox-hero__headline-line {
+  display: block;
+}
+.velox-hero__headline-line--accent {
+  color: var(--v-gold);
+}
+.velox-hero__description {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--v-text-secondary);
+  max-width: 34rem;
+  margin-bottom: var(--space-8);
+}
+.velox-hero__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+.velox-hero__scroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--v-text-muted);
+  text-decoration: none;
+  font-size: 0.6875rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  transition: color var(--duration-fast) var(--ease-out);
+  z-index: 10;
+}
+.velox-hero__scroll:hover {
+  color: var(--v-gold);
+}
+.velox-hero__scroll-icon {
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(5px);
+  }
+  60% {
+    transform: translateY(2px);
+  }
+}
+
+/* ── Section Scroll Offsets & Scrollbar utility ────────────── */
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ────────────────────────────────────────────────────────────
+   15. REDUCED MOTION OVERRIDE
+   ──────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation-duration:       0.01ms !important;
+    animation-iteration-count:1      !important;
+    transition-duration:      0.01ms !important;
+    scroll-behavior:          auto   !important;
   }
-  html {
-    scroll-behavior: auto;
-  }
+  html { scroll-behavior: auto; }
+  .velox-hero__scroll-icon { animation: none !important; }
 }
