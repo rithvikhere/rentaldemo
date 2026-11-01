@@ -106,9 +106,9 @@
   --space-32:  8rem;      /* 128px */
 
   /* ── Section Spacing ─────────────────────────────────────── */
-  --section-py-lg: clamp(5rem, 8vw, 7.5rem);   /* primary sections  */
-  --section-py-md: clamp(3.5rem, 6vw, 5rem);   /* tighter sections  */
-  --section-py-sm: clamp(2.5rem, 4vw, 3.5rem); /* compact blocks    */
+  --section-py-lg: clamp(6.5rem, 10vw, 9.5rem);   /* Generous luxury editorial breathing room */
+  --section-py-md: clamp(5rem, 7.5vw, 7rem);      /* Tighter sections */
+  --section-py-sm: clamp(3rem, 5vw, 4.5rem);      /* Compact blocks */
 
   /* ── Layout ──────────────────────────────────────────────── */
   --container-max:  1440px;
