@@ -30,7 +30,7 @@ export default function BookingProcess() {
   return (
     <section
       id="how-it-works"
-      className="min-h-screen py-32 md:py-44 lg:py-52 flex flex-col justify-center bg-bg-secondary relative"
+      className="min-h-screen py-32 md:py-44 lg:py-52 flex flex-col justify-center bg-transparent relative"
       aria-label="How Booking Works"
     >
       <div className="container-velox w-full">

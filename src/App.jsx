@@ -48,12 +48,12 @@ export default function App() {
       {/* ── 1. Navbar ────────────────────────────────────────── */}
       <Navbar />
 
-      <main id="main-content" className="relative">
+      <main id="main-content" className="relative bg-[#101010]">
         {/* ── Fixed Grainient Canvas across viewport ─────────────── */}
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#101010]" aria-hidden="true">
           <div className="w-full h-full">
             <Grainient
-              colors={["#000000","#0a0908","#121212","#1c1b1b","#000000"]}
+              colors={["#090909","#101010","#161514","#1a1918","#090909"]}
               angle={46}
               flow={1.5}
               silk={0}
@@ -62,7 +62,7 @@ export default function App() {
               speed={0}
               grainAnimated={false}
               grainSize={0.8}
-              contrast={0.98}
+              contrast={1}
               saturation={0}
               stir={0}
               interactive={false}

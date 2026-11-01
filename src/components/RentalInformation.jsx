@@ -8,7 +8,7 @@ export default function RentalInformation() {
   return (
     <section
       id="rental-information"
-      className="min-h-screen py-36 md:py-48 lg:py-60 flex flex-col justify-center bg-bg-secondary relative"
+      className="min-h-screen py-36 md:py-48 lg:py-60 flex flex-col justify-center bg-transparent relative"
       aria-label="Rental Information and Policies"
     >
       <div className="container-velox w-full">

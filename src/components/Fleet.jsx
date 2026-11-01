@@ -23,7 +23,7 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
   return (
     <section
       id="fleet"
-      className="section-py bg-bg-primary relative"
+      className="section-py bg-transparent relative"
       aria-label="Available Fleet"
     >
       <div className="container-velox">

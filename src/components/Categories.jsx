@@ -19,7 +19,7 @@ export default function Categories({ onSelectCategory }) {
   return (
     <section
       id="categories"
-      className="section-py bg-bg-primary relative"
+      className="section-py bg-transparent relative"
       aria-label="Vehicle Categories"
     >
       <div className="container-velox">

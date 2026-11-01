@@ -15,7 +15,7 @@ export default function FAQ() {
   return (
     <section
       id="faq"
-      className="py-24 sm:py-32 lg:py-36 bg-bg-primary relative"
+      className="py-24 sm:py-32 lg:py-36 bg-transparent relative"
       aria-label="Frequently Asked Questions"
     >
       <div className="container-velox w-full">
