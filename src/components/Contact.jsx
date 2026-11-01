@@ -10,7 +10,7 @@ export default function Contact({ preselectedVehicle, onResetVehicle }) {
   return (
     <section
       id="contact"
-      className="section-py bg-bg-secondary relative border-t border-border"
+      className="section-py bg-bg-primary relative border-t border-border-subtle"
       aria-label="Contact and Enquiry"
     >
       <div className="container-velox">
@@ -39,37 +39,25 @@ export default function Contact({ preselectedVehicle, onResetVehicle }) {
 
           <div className="shrink-0">
             <span className="text-meta text-text-muted uppercase tracking-widest block text-left md:text-right">
-              Direct Concierge &amp; Enquiries
+              Direct Concierge Support
             </span>
           </div>
         </motion.div>
 
-        {/* ── 2-Column Layout: Contact Details & Form ─────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
-          {/* Left Column: Contact Information */}
-          <motion.div
-            className="lg:col-span-5 order-1"
-            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-            whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-            viewport={viewportOnce}
-            transition={{ duration: 0.55, delay: 0.1, ease: luxuryEase }}
-          >
+        {/* ── Content Grid: Contact Cards (Left) + Enquiry Form (Right) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* Left Column: Contact Cards & Operational Info (5 cols) */}
+          <div className="lg:col-span-5">
             <ContactInfo />
-          </motion.div>
+          </div>
 
-          {/* Right Column: Enquiry Form */}
-          <motion.div
-            className="lg:col-span-7 order-2"
-            initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
-            whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-            viewport={viewportOnce}
-            transition={{ duration: 0.55, delay: 0.18, ease: luxuryEase }}
-          >
+          {/* Right Column: Interactive Reservation Form (7 cols) */}
+          <div className="lg:col-span-7">
             <EnquiryForm
               preselectedVehicle={preselectedVehicle}
               onResetVehicle={onResetVehicle}
             />
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
