@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { ArrowRight, Layers } from 'lucide-react'
+import { ArrowRight, Compass } from 'lucide-react'
 import { vehicleCategories } from '../data/cars'
-import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
+import { fadeUpVariant, viewportOnce } from '../animations/variants'
 
 export default function Categories({ onSelectCategory }) {
   const shouldReduceMotion = useReducedMotion()
@@ -10,10 +10,9 @@ export default function Categories({ onSelectCategory }) {
     if (onSelectCategory) {
       onSelectCategory(categoryId)
     }
-    // Smooth scroll down to the Fleet section where filtering takes effect
     const fleetSection = document.getElementById('fleet')
     if (fleetSection) {
-      fleetSection.scrollIntoView({ behavior: 'smooth' })
+      fleetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -26,7 +25,7 @@ export default function Categories({ onSelectCategory }) {
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 lg:mb-16"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
           initial={shouldReduceMotion ? {} : 'hidden'}
           whileInView={shouldReduceMotion ? {} : 'visible'}
           viewport={viewportOnce}
@@ -34,14 +33,14 @@ export default function Categories({ onSelectCategory }) {
         >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
-              <Layers size={14} className="text-gold" aria-hidden="true" />
-              <span>Fleet Segments</span>
+              <Compass size={14} className="text-gold" aria-hidden="true" />
+              <span>Curated Fleet</span>
             </span>
             <span className="accent-rule" />
             <h2 className="text-headline font-heading font-extrabold text-white mt-1">
               Vehicle Categories
             </h2>
-            <p className="text-body text-text-secondary mt-3 max-w-xl">
+            <p className="text-body text-text-secondary mt-4 max-w-2xl leading-relaxed">
               Choose from five meticulously selected automotive classes tailored for business
               itineraries, coastal touring, weekend escapes, and private executive travel.
             </p>
@@ -55,7 +54,7 @@ export default function Categories({ onSelectCategory }) {
         </motion.div>
 
         {/* ── Editorial Category Grid ────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
           {vehicleCategories.map((category, index) => {
             // Asymmetrical editorial spans: top 2 cards are large (7 col & 5 col), bottom 3 are 4 cols each
             const colSpan =
@@ -68,7 +67,7 @@ export default function Categories({ onSelectCategory }) {
             return (
               <motion.article
                 key={category.id}
-                className={`group relative rounded-lg overflow-hidden border border-border bg-bg-card flex flex-col justify-end min-h-[340px] md:min-h-[380px] p-6 lg:p-8 transition-all duration-300 hover:border-gold/60 hover:shadow-2xl ${colSpan}`}
+                className={`group relative rounded-xl overflow-hidden border border-border bg-bg-card flex flex-col justify-end min-h-[340px] md:min-h-[380px] p-7 lg:p-9 transition-all duration-300 hover:border-gold/60 hover:shadow-2xl ${colSpan}`}
                 initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                 viewport={viewportOnce}
