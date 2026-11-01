@@ -16,7 +16,7 @@ export default function BookingProcess() {
   return (
     <section
       id="how-it-works"
-      className="section-py bg-bg-secondary relative border-t border-border"
+      className="section-py bg-bg-primary relative border-t border-border-subtle"
       aria-label="How Booking Works"
     >
       <div className="container-velox">
@@ -62,20 +62,20 @@ export default function BookingProcess() {
             transition={{ duration: 0.8, delay: 0.2, ease: luxuryEase }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 relative z-10">
             {bookingSteps.map((step, index) => {
-              const IconComponent = iconMap[step.iconName] || Compass
+              const IconComponent = iconMap[step.icon] || Compass
 
               return (
-                <motion.article
+                <motion.div
                   key={step.step}
-                  className="card-info group flex flex-col justify-between h-full relative transition-all duration-300 hover:border-gold/50 hover:shadow-xl hover:-translate-y-1"
-                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 22 }}
+                  className="card-info group hover:border-gold/50 transition-all duration-300 relative flex flex-col justify-between"
+                  initial={shouldReduceMotion ? {} : { opacity: 0, y: 24 }}
                   whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                   viewport={viewportOnce}
                   transition={{
-                    duration: 0.55,
-                    delay: shouldReduceMotion ? 0 : index * 0.09,
+                    duration: 0.5,
+                    delay: shouldReduceMotion ? 0 : index * 0.12,
                     ease: luxuryEase,
                   }}
                 >
@@ -109,36 +109,34 @@ export default function BookingProcess() {
                     <span>Phase 0{index + 1}</span>
                     <span className="w-1.5 h-1.5 rounded-full bg-border group-hover:bg-gold transition-colors duration-200" />
                   </div>
-                </motion.article>
+                </motion.div>
               )
             })}
           </div>
         </div>
 
-        {/* ── Bottom Callout Banner ──────────────────────────── */}
+        {/* ── Bottom Callout: Need custom arrangements? ──────── */}
         <motion.div
-          className="mt-12 p-6 rounded-lg bg-bg-card border border-border flex flex-col sm:flex-row items-center justify-between gap-4"
+          className="mt-14 p-6 sm:p-8 rounded-lg bg-bg-card border border-border flex flex-col sm:flex-row items-center justify-between gap-6"
           initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
           whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ duration: 0.5, delay: 0.35, ease: luxuryEase }}
+          transition={{ duration: 0.5, delay: 0.3, ease: luxuryEase }}
         >
-          <div className="flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse shrink-0" aria-hidden="true" />
+          <div>
+            <h4 className="text-subtitle font-heading font-semibold text-white mb-1">
+              Need personalized or long-term arrangements?
+            </h4>
             <p className="text-body-sm text-text-secondary">
-              Have specific itinerary requests or need corporate fleet booking?
+              Our reservation team can assist with private transfers, extended fleet hire, and bespoke delivery requests.
             </p>
           </div>
           <a
             href="#contact"
-            className="text-label text-gold hover:text-gold-light inline-flex items-center gap-1.5 font-semibold transition-colors shrink-0 group focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 rounded-sm"
+            className="btn btn-secondary text-label shrink-0 flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4 rounded-sm"
           >
-            <span>Ask an Enquiry Specialist</span>
-            <ArrowRight
-              size={14}
-              className="transition-transform duration-200 group-hover:translate-x-1"
-              aria-hidden="true"
-            />
+            <span>Speak with a Specialist</span>
+            <ArrowRight size={16} className="text-gold" aria-hidden="true" />
           </a>
         </motion.div>
       </div>
