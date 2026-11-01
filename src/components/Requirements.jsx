@@ -8,7 +8,7 @@ export default function Requirements() {
   return (
     <section
       id="rental-requirements"
-      className="min-h-screen py-36 md:py-48 lg:py-60 flex flex-col justify-center bg-transparent relative"
+      className="min-h-screen py-36 md:py-48 lg:py-60 flex flex-col justify-center bg-bg-primary relative"
       aria-label="Rental Requirements"
     >
       <div className="container-velox w-full">

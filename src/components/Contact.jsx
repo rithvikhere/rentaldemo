@@ -10,7 +10,8 @@ export default function Contact({ preselectedVehicle, onResetVehicle }) {
   return (
     <section
       id="contact"
-      className="section-py bg-transparent relative"
+      className="section-py bg-bg-primary relative border-t border-border-subtle"
+      style={{ backgroundColor: '#101010' }}
       aria-label="Contact and Enquiry"
     >
       <div className="container-velox">

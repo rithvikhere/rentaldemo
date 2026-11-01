@@ -9,7 +9,6 @@ import Requirements from './components/Requirements'
 import RentalInformation from './components/RentalInformation'
 import FAQ from './components/FAQ'
 import Contact from './components/Contact'
-import Grainient from './components/Grainient'
 import PillNav from './components/PillNav'
 
 export default function App() {
@@ -48,30 +47,7 @@ export default function App() {
       {/* ── 1. Navbar ────────────────────────────────────────── */}
       <Navbar />
 
-      <main id="main-content" className="relative bg-[#101010]">
-        {/* ── Fixed Grainient Canvas across viewport ─────────────── */}
-        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#101010]" aria-hidden="true">
-          <div className="w-full h-full">
-            <Grainient
-              colors={["#090909","#101010","#161514","#1a1918","#090909"]}
-              angle={46}
-              flow={1.5}
-              silk={0}
-              grainAmount={0.05}
-              scale={1.2}
-              speed={0}
-              grainAnimated={false}
-              grainSize={0.8}
-              contrast={1}
-              saturation={0}
-              stir={0}
-              interactive={false}
-              dpr={1}
-              className="w-full h-full"
-            />
-          </div>
-        </div>
-
+      <main id="main-content" className="relative bg-bg-primary" style={{ backgroundColor: '#101010' }}>
         {/* ── 2. Hero Section (Retains original car photo background) ── */}
         <div className="relative z-10">
           <Hero />
@@ -109,8 +85,9 @@ export default function App() {
 
             {/* ── Footer / Navigation ────────────────────────────── */}
             <footer
-              className="bg-transparent flex flex-col items-center justify-center"
+              className="bg-bg-primary flex flex-col items-center justify-center"
               style={{
+                backgroundColor: '#101010',
                 paddingTop: '1.5rem',
                 paddingBottom: 'clamp(2.75rem, 5vh, 4rem)'
               }}

@@ -334,40 +334,21 @@ const Grainient = ({
     const buffer = gl.createFramebuffer();
     const fieldSize = { width: 0, height: 0 };
 
+    const probe = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
     const colorCache = new Map();
     const parse = value => {
-      const key = String(value || '').trim();
+      const key = String(value);
       const cached = colorCache.get(key);
       if (cached) return cached;
-
-      let rgb = [0.063, 0.063, 0.063]; // Safe dark fallback (#101010)
-
-      if (key.startsWith('#')) {
-        const hex = key.slice(1);
-        if (hex.length === 3) {
-          rgb = [
-            parseInt(hex[0] + hex[0], 16) / 255,
-            parseInt(hex[1] + hex[1], 16) / 255,
-            parseInt(hex[2] + hex[2], 16) / 255
-          ];
-        } else if (hex.length >= 6) {
-          rgb = [
-            parseInt(hex.slice(0, 2), 16) / 255,
-            parseInt(hex.slice(2, 4), 16) / 255,
-            parseInt(hex.slice(4, 6), 16) / 255
-          ];
-        }
-      } else if (key.startsWith('rgb')) {
-        const parts = key.match(/\d+(\.\d+)?/g);
-        if (parts && parts.length >= 3) {
-          rgb = [
-            parseFloat(parts[0]) / 255,
-            parseFloat(parts[1]) / 255,
-            parseFloat(parts[2]) / 255
-          ];
-        }
+      let rgb = [0, 0, 0];
+      if (probe) {
+        probe.clearRect(0, 0, 1, 1);
+        probe.fillStyle = '#000000';
+        probe.fillStyle = key;
+        probe.fillRect(0, 0, 1, 1);
+        const [r, g, b] = probe.getImageData(0, 0, 1, 1).data;
+        rgb = [r / 255, g / 255, b / 255];
       }
-
       colorCache.set(key, rgb);
       return rgb;
     };
