@@ -11,8 +11,3 @@ export { default as FAQ } from './FAQ'
 export { default as Contact } from './Contact'
 export { default as ContactInfo } from './ContactInfo'
 export { default as EnquiryForm } from './EnquiryForm'
-
-// Placeholder stubs for subsequent phases
-export function TrustIndicators()   { return null }
-export function WhyChooseUs()       { return null }
-export function Footer()            { return null }
