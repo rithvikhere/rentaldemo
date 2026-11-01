@@ -1,15 +1,13 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { FileText, UserCheck, MapPin, Wallet, Award, ClipboardCheck, ShieldCheck, AlertCircle } from 'lucide-react'
+import { UserCheck, CreditCard, ShieldCheck, FileCheck, ClipboardList, CheckCircle2 } from 'lucide-react'
 import { rentalRequirements } from '../data/rentalInfo'
 import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
 
 const iconMap = {
-  FileText,
   UserCheck,
-  MapPin,
-  Wallet,
-  Award,
-  ClipboardCheck,
+  FileCheck,
+  CreditCard,
+  ShieldCheck,
 }
 
 export default function Requirements() {
@@ -18,7 +16,7 @@ export default function Requirements() {
   return (
     <section
       id="rental-requirements"
-      className="section-py bg-bg-primary relative border-t border-border"
+      className="section-py bg-bg-primary relative border-t border-border-subtle"
       aria-label="Rental Requirements"
     >
       <div className="container-velox">
@@ -32,99 +30,93 @@ export default function Requirements() {
         >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
-              <ShieldCheck size={14} className="text-gold" aria-hidden="true" />
-              <span>Rental Requirements</span>
+              <ClipboardList size={14} className="text-gold" aria-hidden="true" />
+              <span>Prerequisites</span>
             </span>
             <span className="accent-rule" />
             <h2 className="text-headline font-heading font-extrabold text-white mt-1">
-              Everything You Need Before You Drive.
+              Rental Requirements
             </h2>
             <p className="text-body text-text-secondary mt-3 max-w-xl">
-              Keep the essential documents ready for a smooth rental experience.
-              Review the checklist below to ensure hassle-free handovers.
+              To ensure an exceptional driving experience and complete vehicle protection,
+              all hirers must meet the following baseline requirements prior to key handover.
             </p>
           </div>
 
           <div className="shrink-0">
             <span className="text-meta text-text-muted uppercase tracking-widest block text-left md:text-right">
-              Standard Onboarding Criteria
+              Eligibility & Verification
             </span>
           </div>
         </motion.div>
 
-        {/* ── 6 Requirements Grid (3 cols desktop, 2 cols tablet, 1 col mobile) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {rentalRequirements.map((req, index) => {
-            const IconComponent = iconMap[req.iconName] || FileText
+        {/* ── Requirements Grid ───────────────────────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {rentalRequirements.map((item, index) => {
+            const IconComponent = iconMap[item.icon] || UserCheck
 
             return (
               <motion.article
-                key={req.id}
-                className="card-info group flex flex-col justify-between h-full bg-bg-card border border-border rounded-lg p-6 lg:p-7 transition-all duration-300 hover:border-gold/50 hover:shadow-xl hover:-translate-y-1"
+                key={item.id}
+                className="card-info group hover:border-gold/50 transition-all duration-300 flex flex-col justify-between"
                 initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
                 whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                 viewport={viewportOnce}
                 transition={{
                   duration: 0.5,
-                  delay: shouldReduceMotion ? 0 : index * 0.07,
+                  delay: shouldReduceMotion ? 0 : index * 0.08,
                   ease: luxuryEase,
                 }}
               >
                 <div>
-                  {/* Top: Icon + Numbered identifier */}
-                  <div className="flex items-center justify-between mb-5">
+                  {/* Icon & Title Row */}
+                  <div className="flex items-center justify-between mb-6">
                     <div className="w-11 h-11 rounded-md flex items-center justify-center bg-bg-secondary border border-border text-gold group-hover:border-gold/60 group-hover:bg-gold/10 transition-colors duration-200">
                       <IconComponent size={20} strokeWidth={1.75} aria-hidden="true" />
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[2px] bg-bg-secondary text-text-muted border border-border-subtle">
-                        {req.highlight}
-                      </span>
-                      <span className="text-meta font-mono font-bold text-text-muted">
-                        {req.id}
-                      </span>
-                    </div>
+                    {/* Standard Requirement Tag */}
+                    <span className="text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-[2px] bg-bg-secondary text-text-muted border border-border-subtle">
+                      Mandatory
+                    </span>
                   </div>
 
-                  {/* Heading */}
-                  <h3 className="text-title font-heading font-bold text-white mb-2.5 group-hover:text-gold transition-colors duration-200">
-                    {req.title}
+                  <h3 className="text-title font-heading font-bold text-white mb-3 group-hover:text-gold transition-colors duration-200">
+                    {item.title}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-body-sm text-text-secondary leading-relaxed">
-                    {req.description}
+                  <p className="text-body-sm text-text-secondary leading-relaxed mb-6">
+                    {item.description}
                   </p>
                 </div>
 
-                {/* Bottom line */}
-                <div className="pt-4 mt-6 border-t border-border-subtle flex items-center justify-between text-[11px] text-text-muted">
-                  <span>Requirement {req.id} of 06</span>
-                  <span className="text-gold font-medium">Verified Handover</span>
+                {/* Additional criteria note */}
+                <div className="pt-4 border-t border-border-subtle">
+                  <span className="text-[12px] text-text-muted flex items-center gap-1.5 font-medium">
+                    <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" aria-hidden="true" />
+                    <span>Verified prior to handover</span>
+                  </span>
                 </div>
               </motion.article>
             )
           })}
         </div>
 
-        {/* ── Transparency & Disclaimer Callout ──────────────── */}
+        {/* ── Document Checklist Note ─────────────────────────── */}
         <motion.div
           className="mt-12 p-6 rounded-lg bg-bg-secondary border border-border/80 flex items-start gap-4"
-          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 12 }}
           whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ duration: 0.5, delay: 0.25, ease: luxuryEase }}
+          transition={{ duration: 0.5, delay: 0.35, ease: luxuryEase }}
         >
-          <AlertCircle size={20} className="text-gold shrink-0 mt-0.5" aria-hidden="true" />
-          <div className="text-body-sm text-text-secondary leading-relaxed">
-            <strong className="text-white font-semibold block mb-0.5">
-              Accuracy &amp; Transparency Notice
-            </strong>
-            The requirements listed above are illustrative and representative of standard
-            automotive rental protocols. Actual acceptable identification types, minimum age
-            brackets, driving experience stipulations, and security deposit amounts may vary
-            depending on the individual rental provider, vehicle category, and local jurisdiction.
+          <div className="p-2 rounded-full bg-gold/10 text-gold shrink-0 mt-0.5">
+            <CheckCircle2 size={18} aria-hidden="true" />
+          </div>
+          <div className="text-body-sm text-text-secondary">
+            <strong className="text-white font-semibold">International Driving Permits:</strong>{' '}
+            Hirers holding licenses not printed in the Roman alphabet must provide an International
+            Driving Permit (IDP) alongside their valid national driver&apos;s license and original passport.
           </div>
         </motion.div>
       </div>
