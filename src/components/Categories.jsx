@@ -78,12 +78,18 @@ export default function Categories({ onSelectCategory }) {
                 }}
               >
                 {/* Background Image with restrained hover zoom */}
-                <div className="absolute inset-0 z-0 overflow-hidden">
+                <div className="absolute inset-0 z-0 overflow-hidden bg-bg-card">
                   <img
                     src={category.image}
                     alt={category.imageAlt}
                     loading="lazy"
+                    width="900"
+                    height="600"
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    onError={(e) => {
+                      e.target.style.display = 'none'
+                      e.target.parentElement.style.backgroundColor = 'var(--v-bg-card)'
+                    }}
                   />
                   {/* Multi-stop dark gradient overlay for text readability */}
                   <div
@@ -114,7 +120,7 @@ export default function Categories({ onSelectCategory }) {
                   <button
                     type="button"
                     onClick={() => handleCategoryClick(category.id)}
-                    className="inline-flex items-center gap-2 text-label font-semibold text-white group-hover:text-gold transition-colors duration-200 cursor-pointer"
+                    className="inline-flex items-center gap-2 text-label font-semibold text-white group-hover:text-gold transition-colors duration-200 cursor-pointer focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-4 rounded-sm"
                     aria-label={`Explore ${category.name} vehicles in fleet`}
                   >
                     <span>Explore Vehicles</span>

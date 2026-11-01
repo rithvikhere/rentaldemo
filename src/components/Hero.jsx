@@ -38,7 +38,9 @@ export default function Hero() {
           src={HERO_IMAGE}
           alt=""
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
+          width="1920"
+          height="1080"
           draggable="false"
           style={{ background: HERO_IMAGE_FALLBACK }}
           onError={(e) => {
@@ -97,7 +99,7 @@ export default function Hero() {
           >
             <a
               href="#fleet"
-              className="btn btn-primary velox-hero__cta-primary group"
+              className="btn btn-primary velox-hero__cta-primary group w-full sm:w-auto"
             >
               <span>Explore Fleet</span>
               <ArrowRight
@@ -109,7 +111,7 @@ export default function Hero() {
             </a>
             <a
               href="#contact"
-              className="btn btn-secondary velox-hero__cta-secondary"
+              className="btn btn-secondary velox-hero__cta-secondary w-full sm:w-auto"
             >
               Contact Us
             </a>

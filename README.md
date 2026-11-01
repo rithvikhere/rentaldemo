@@ -96,5 +96,5 @@ Full specification: [`src/design-system.md`](src/design-system.md)
 | 4     | Booking Process & Rental Requirements| ✅ Complete  |
 | 5     | Contact, Enquiry Form & FAQ          | ✅ Complete  |
 | 6     | Animations & Smooth Scrolling        | ✅ Complete  |
-| 7     | Responsive Design & Optimisation     | ⬜ Pending   |
+| 7     | Responsive Design & Optimisation     | ✅ Complete  |
 | 8     | Deployment & Client Presentation     | ⬜ Pending   |

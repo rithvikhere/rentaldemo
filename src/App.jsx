@@ -38,6 +38,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-bg-primary text-offwhite-50 selection:bg-gold selection:text-charcoal-950">
+      {/* ── Accessible skip to main content ─────────────────── */}
+      <a href="#main-content" className="skip-to-content">
+        Skip to main content
+      </a>
+
       {/* ── 1. Navbar ────────────────────────────────────────── */}
       <Navbar />
 
@@ -87,7 +92,7 @@ export default function App() {
             </span>
           </div>
           <p className="text-[11px] text-text-muted">
-            Phase 6: Animation System &amp; Lenis Smooth Scrolling verified.
+            VELOX Premium Car Rental Demo · All rights reserved.
           </p>
         </div>
       </footer>
