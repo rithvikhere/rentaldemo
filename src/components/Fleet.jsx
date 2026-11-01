@@ -1,29 +1,36 @@
-import { useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
-import { Car, Layers, SlidersHorizontal, RefreshCw } from 'lucide-react'
-import { vehicles, filterTabs } from '../data/cars'
+import { Sparkles, Car } from 'lucide-react'
+import { fleetVehicles } from '../data/cars'
 import VehicleCard from './VehicleCard'
-import { fadeUpVariant, viewportOnce } from '../animations/variants'
+import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
+
+const filterCategories = [
+  { id: 'all', label: 'All Fleet' },
+  { id: 'supercar', label: 'Supercar' },
+  { id: 'prestige', label: 'Prestige' },
+  { id: 'suv', label: 'SUV' },
+  { id: 'sports', label: 'Sports' },
+  { id: 'executive', label: 'Executive' },
+]
 
 export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnquire }) {
   const shouldReduceMotion = useReducedMotion()
 
-  // Filtered vehicles
+  // Filter fleet based on active category
   const filteredVehicles = useMemo(() => {
-    if (activeCategory === 'all') return vehicles
-    return vehicles.filter((v) => v.category === activeCategory)
-  }, [activeCategory])
-
-  // Active category display label
-  const activeLabel = useMemo(() => {
-    const tab = filterTabs.find((t) => t.id === activeCategory)
-    return tab ? tab.label : 'Vehicles'
+    if (!activeCategory || activeCategory === 'all') {
+      return fleetVehicles
+    }
+    return fleetVehicles.filter(
+      (vehicle) => vehicle.category.toLowerCase() === activeCategory.toLowerCase()
+    )
   }, [activeCategory])
 
   return (
     <section
       id="fleet"
-      className="section-py bg-bg-primary relative border-t border-border"
+      className="section-py bg-bg-primary relative border-t border-border-subtle"
       aria-label="Available Fleet"
     >
       <div className="container-velox">
@@ -46,112 +53,95 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
             </h2>
             <p className="text-body text-text-secondary mt-3 max-w-xl">
               Browse our complete lineup of ten distinguished vehicles. Every machine is
-              prepared to immaculate standards, verified across mechanical safety protocols,
-              and provided with comprehensive insurance.
+              maintained to exacting technical specifications for pure performance.
             </p>
           </div>
 
-          {/* Quick status counter */}
+          {/* Fleet count badge */}
           <div className="flex items-center gap-2 text-sm text-text-secondary bg-bg-secondary px-4 py-2.5 rounded-md border border-border shrink-0 self-start lg:self-end">
-            <Layers size={16} className="text-gold" aria-hidden="true" />
-            <span>
-              Showing <strong className="text-white font-semibold">{filteredVehicles.length}</strong> of {vehicles.length} vehicles
-            </span>
+            <Sparkles size={16} className="text-gold" aria-hidden="true" />
+            <span className="font-medium text-white">{filteredVehicles.length}</span>
+            <span>of {fleetVehicles.length} Vehicles Displayed</span>
           </div>
         </motion.div>
 
-        {/* ── Category Filter Tabs ───────────────────────────── */}
-        <div className="mb-10">
-          <div className="flex items-center gap-2 mb-3 text-meta text-text-muted">
-            <SlidersHorizontal size={13} className="text-gold" aria-hidden="true" />
-            <span>Filter By Class</span>
-          </div>
-
-          <div
-            className="flex items-center gap-2.5 overflow-x-auto pb-3 pt-1 scrollbar-none no-scrollbar"
-            role="tablist"
-            aria-label="Filter fleet by vehicle category"
-          >
-            {filterTabs.map((tab) => {
-              const isActive = activeCategory === tab.id
-              const count =
-                tab.id === 'all'
-                  ? vehicles.length
-                  : vehicles.filter((v) => v.category === tab.id).length
+        {/* ── Filter Bar ───────────────────────────────────────── */}
+        <div className="mb-12">
+          {/* Mobile Filter: horizontal scroll container */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-3 sm:pb-0 sm:flex-wrap no-scrollbar" role="tablist" aria-label="Fleet Categories">
+            {filterCategories.map((cat) => {
+              const isActive = activeCategory === cat.id
 
               return (
                 <button
-                  key={tab.id}
+                  key={cat.id}
+                  type="button"
                   role="tab"
                   aria-selected={isActive}
                   aria-controls="fleet-grid"
-                  onClick={() => onSelectCategory && onSelectCategory(tab.id)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-label font-medium transition-all duration-200 shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 ${
+                  onClick={() => onSelectCategory && onSelectCategory(cat.id)}
+                  className={`text-label font-medium px-5 py-2.5 rounded-md transition-all duration-200 whitespace-nowrap cursor-pointer border focus-visible:outline-2 focus-visible:outline-gold focus-visible:outline-offset-2 ${
                     isActive
-                      ? 'bg-gold text-charcoal-950 font-semibold shadow-md shadow-gold/20 scale-[1.02]'
-                      : 'bg-bg-card text-text-secondary border border-border hover:border-gold/50 hover:text-white'
+                      ? 'bg-gold text-charcoal-950 border-gold font-semibold shadow-lg shadow-gold/15'
+                      : 'bg-bg-card text-text-secondary border-border hover:border-gold/50 hover:text-white'
                   }`}
                 >
-                  <span>{tab.label}</span>
-                  <span
-                    className={`text-[11px] font-mono px-2 py-0.5 rounded-full ${
-                      isActive
-                        ? 'bg-charcoal-950/20 text-charcoal-950 font-bold'
-                        : 'bg-bg-secondary text-text-muted'
-                    }`}
-                  >
-                    {count}
-                  </span>
+                  {cat.label}
+                  {/* Subtle vehicle count badge within active tab */}
+                  {isActive && (
+                    <span className="ml-2 text-meta px-1.5 py-0.5 rounded-[2px] bg-charcoal-950/20 text-charcoal-950 font-mono font-bold">
+                      {filteredVehicles.length}
+                    </span>
+                  )}
                 </button>
               )
             })}
           </div>
         </div>
 
-        {/* ── Vehicles Grid ──────────────────────────────────── */}
-        <div id="fleet-grid" role="region" aria-live="polite">
-          {filteredVehicles.length > 0 ? (
-            <motion.div
-              layout={!shouldReduceMotion}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredVehicles.map((vehicle) => (
-                  <motion.div
-                    key={vehicle.id}
-                    layout={!shouldReduceMotion}
-                    initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.97 }}
-                    animate={shouldReduceMotion ? {} : { opacity: 1, scale: 1 }}
-                    exit={shouldReduceMotion ? {} : { opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className="h-full"
-                  >
-                    <VehicleCard vehicle={vehicle} onEnquire={onEnquire} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-          ) : (
-            /* ── Empty State ────────────────────────────────── */
-            <div className="text-center py-20 px-6 rounded-lg border border-border bg-bg-card max-w-lg mx-auto">
-              <Car size={40} className="text-gold mx-auto mb-4 opacity-70" aria-hidden="true" />
-              <h3 className="text-title font-heading font-bold text-white mb-2">
-                No Vehicles Found
-              </h3>
-              <p className="text-body-sm text-text-secondary mb-6">
-                There are no vehicles currently listed under the &ldquo;{activeLabel}&rdquo; category.
-              </p>
-              <button
-                type="button"
-                onClick={() => onSelectCategory && onSelectCategory('all')}
-                className="btn btn-secondary inline-flex items-center gap-2 cursor-pointer"
+        {/* ── Vehicle Cards Grid ──────────────────────────────── */}
+        <div
+          id="fleet-grid"
+          role="region"
+          aria-live="polite"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredVehicles.map((vehicle, index) => (
+              <motion.div
+                key={vehicle.id}
+                layout={!shouldReduceMotion}
+                initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.98 }}
+                animate={shouldReduceMotion ? {} : { opacity: 1, scale: 1 }}
+                exit={shouldReduceMotion ? {} : { opacity: 0, scale: 0.98 }}
+                transition={{
+                  duration: 0.35,
+                  delay: shouldReduceMotion ? 0 : Math.min(index * 0.05, 0.3),
+                  ease: luxuryEase,
+                }}
               >
-                <RefreshCw size={15} aria-hidden="true" />
-                <span>Show All Vehicles</span>
-              </button>
-            </div>
-          )}
+                <VehicleCard
+                  vehicle={vehicle}
+                  onEnquire={onEnquire}
+                />
+              </motion.div>
+            ))}
+          </AnimatePresence>
         </div>
+
+        {/* Empty state safeguard */}
+        {filteredVehicles.length === 0 && (
+          <div className="py-20 text-center border border-dashed border-border rounded-lg bg-bg-card">
+            <p className="text-body text-text-muted mb-4">No vehicles currently match this category.</p>
+            <button
+              type="button"
+              onClick={() => onSelectCategory && onSelectCategory('all')}
+              className="btn btn-secondary text-label"
+            >
+              View Full Fleet
+            </button>
+          </div>
+        )}
       </div>
     </section>
   )

@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'motion/react'
-import { ArrowRight, Compass } from 'lucide-react'
+import { ArrowRight, Layers } from 'lucide-react'
 import { vehicleCategories } from '../data/cars'
-import { fadeUpVariant, viewportOnce } from '../animations/variants'
+import { fadeUpVariant, viewportOnce, luxuryEase } from '../animations/variants'
 
 export default function Categories({ onSelectCategory }) {
   const shouldReduceMotion = useReducedMotion()
@@ -10,16 +10,17 @@ export default function Categories({ onSelectCategory }) {
     if (onSelectCategory) {
       onSelectCategory(categoryId)
     }
+    // Smooth scroll down to the Fleet section where filtering takes effect
     const fleetSection = document.getElementById('fleet')
     if (fleetSection) {
-      fleetSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      fleetSection.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
   return (
     <section
       id="categories"
-      className="section-py bg-bg-secondary relative border-t border-border"
+      className="section-py bg-bg-primary relative border-t border-border-subtle"
       aria-label="Vehicle Categories"
     >
       <div className="container-velox">
@@ -33,8 +34,8 @@ export default function Categories({ onSelectCategory }) {
         >
           <div className="section-heading">
             <span className="eyebrow flex items-center gap-2">
-              <Compass size={14} className="text-gold" aria-hidden="true" />
-              <span>Curated Fleet</span>
+              <Layers size={14} className="text-gold" aria-hidden="true" />
+              <span>Fleet Segments</span>
             </span>
             <span className="accent-rule" />
             <h2 className="text-headline font-heading font-extrabold text-white mt-1">
