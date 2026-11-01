@@ -29,7 +29,7 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
         <motion.div
-          className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-16 lg:mb-20"
+          className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20 lg:mb-24"
           initial={shouldReduceMotion ? {} : 'hidden'}
           whileInView={shouldReduceMotion ? {} : 'visible'}
           viewport={viewportOnce}
@@ -40,11 +40,11 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
               <Car size={14} className="text-gold" aria-hidden="true" />
               <span>Available Fleet</span>
             </span>
-            <span className="accent-rule" />
-            <h2 className="text-headline font-heading font-extrabold text-white mt-1">
+            <span className="accent-rule mb-6" />
+            <h2 className="text-headline font-heading font-extrabold text-white mt-1 mb-6 md:mb-8">
               Precision-Engineered Luxury
             </h2>
-            <p className="text-body text-text-secondary mt-4 max-w-2xl leading-relaxed">
+            <p className="text-body text-text-secondary max-w-2xl leading-relaxed">
               Browse our complete lineup of ten distinguished vehicles. Every machine is
               prepared to immaculate standards, verified across mechanical safety protocols,
               and provided with comprehensive insurance.
@@ -61,8 +61,8 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
         </motion.div>
 
         {/* ── Category Filter Tabs ───────────────────────────── */}
-        <div className="mb-16 lg:mb-20">
-          <div className="flex items-center gap-2 mb-4 text-meta text-text-muted">
+        <div className="mb-20 lg:mb-24">
+          <div className="flex items-center gap-2 mb-5 text-meta text-text-muted">
             <SlidersHorizontal size={13} className="text-gold" aria-hidden="true" />
             <span>Filter By Class</span>
           </div>
@@ -113,7 +113,7 @@ export default function Fleet({ activeCategory = 'all', onSelectCategory, onEnqu
           {filteredVehicles.length > 0 ? (
             <motion.div
               layout={!shouldReduceMotion}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 lg:gap-x-12 gap-y-14 lg:gap-y-16"
             >
               <AnimatePresence mode="popLayout">
                 {filteredVehicles.map((vehicle) => (
