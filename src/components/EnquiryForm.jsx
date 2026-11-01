@@ -155,7 +155,6 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     if (!validate()) {
       return
     }
@@ -200,7 +199,7 @@ export default function EnquiryForm({ preselectedVehicle, onResetVehicle }) {
   }
 
   return (
-    <div className="bg-bg-card border border-border rounded-lg p-6 md:p-8 lg:p-10 shadow-2xl relative">
+    <div className="bg-bg-card border border-border rounded-xl p-7 md:p-10 lg:p-12 shadow-2xl relative">
       <AnimatePresence mode="wait">
         {!isSuccess ? (
           /* ── 1. Active Enquiry Form ───────────────────────── */
