@@ -80,7 +80,7 @@ export default function App() {
       </main>
 
       {/* ── Footer Anchor / Placeholder ─────────────────────── */}
-      <footer className="py-8 bg-bg-primary border-t border-border text-center text-meta text-text-muted">
+      <footer className="py-8 bg-bg-primary border-t border-border-subtle text-center text-meta text-text-muted">
         <div className="container-velox flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="w-4 h-0.5 bg-gold block" aria-hidden="true" />
