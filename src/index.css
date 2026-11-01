@@ -585,8 +585,9 @@ ul, ol {
 .card-vehicle {
   background-color: var(--v-bg-card);
   border: var(--border-1) solid var(--v-border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-xl);
   overflow: hidden;
+  box-shadow: 0 8px 28px -6px rgba(0,0,0,0.45);
   transition:
     border-color var(--duration-base) var(--ease-out),
     transform    var(--duration-slow) var(--ease-out),
@@ -594,8 +595,8 @@ ul, ol {
 }
 .card-vehicle:hover {
   border-color: rgba(198, 168, 117, 0.4);
-  transform: translateY(-3px);
-  box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0,0,0,0.55);
 }
 
 /* Vehicle card image container — 16:9 aspect */
@@ -618,7 +619,7 @@ ul, ol {
 
 /* Vehicle card body */
 .card-vehicle__body {
-  padding: var(--space-6);
+  padding: clamp(1.5rem, 2.5vw, 2rem);
 }
 
 /* Information / feature card */
