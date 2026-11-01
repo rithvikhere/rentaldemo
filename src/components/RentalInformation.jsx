@@ -24,7 +24,7 @@ export default function RentalInformation() {
       <div className="container-velox">
         {/* ── Section Header ─────────────────────────────────── */}
         <motion.div
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 lg:mb-20"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 lg:mb-24"
           initial={shouldReduceMotion ? {} : 'hidden'}
           whileInView={shouldReduceMotion ? {} : 'visible'}
           viewport={viewportOnce}
@@ -39,81 +39,85 @@ export default function RentalInformation() {
             <h2 className="text-headline font-heading font-extrabold text-white mt-1">
               The Details That Matter.
             </h2>
-            <p className="text-body text-text-secondary mt-3 max-w-xl">
-              Transparent, straightforward rental terms designed for an effortless luxury
-              experience. Review essential information before completing your reservation.
+            <p className="text-body text-text-secondary mt-4 max-w-2xl leading-relaxed">
+              A few important things to understand before you begin your journey.
+              Review key terms regarding fuel, durations, cancellations, and travel boundaries.
             </p>
           </div>
 
           <div className="shrink-0">
             <span className="text-meta text-text-muted uppercase tracking-widest block text-left md:text-right">
-              Fair & Transparent Terms
+              Operational Policies &amp; Guidance
             </span>
           </div>
         </motion.div>
 
-        {/* ── Policy Cards Grid ──────────────────────────────── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* ── 2-Column Policy Information Grid ───────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
           {rentalPolicies.map((policy, index) => {
-            const IconComponent = iconMap[policy.icon] || Fuel
+            const IconComponent = iconMap[policy.iconName] || Info
 
             return (
               <motion.article
                 key={policy.id}
-                className="card-info group hover:border-gold/50 transition-all duration-300 flex flex-col justify-between"
-                initial={shouldReduceMotion ? {} : { opacity: 0, y: 20 }}
+                className="group relative bg-bg-card border border-border rounded-xl p-8 sm:p-9 transition-all duration-300 hover:border-gold/50 hover:bg-bg-card/90 shadow-sm"
+                initial={shouldReduceMotion ? {} : { opacity: 0, y: 18 }}
                 whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                 viewport={viewportOnce}
                 transition={{
                   duration: 0.5,
-                  delay: shouldReduceMotion ? 0 : index * 0.08,
+                  delay: shouldReduceMotion ? 0 : index * 0.07,
                   ease: luxuryEase,
                 }}
               >
-                <div>
-                  {/* Icon & Policy Header */}
-                  <div className="flex items-center gap-3.5 mb-5">
+                <div className="flex items-start gap-5">
+                  {/* Left Number / Icon Column */}
+                  <div className="shrink-0">
                     <div className="w-12 h-12 rounded-md bg-bg-secondary border border-border flex items-center justify-center text-gold group-hover:border-gold/60 group-hover:bg-gold/10 transition-colors duration-200">
                       <IconComponent size={22} strokeWidth={1.75} aria-hidden="true" />
                     </div>
-                    <div>
-                      <h3 className="text-title font-heading font-bold text-white group-hover:text-gold transition-colors duration-200">
-                        {policy.title}
-                      </h3>
-                    </div>
+                    <span className="text-meta font-mono font-bold text-text-muted text-center block mt-2">
+                      {policy.id}
+                    </span>
                   </div>
 
-                  <p className="text-body-sm text-text-secondary leading-relaxed mb-6">
-                    {policy.description}
-                  </p>
-                </div>
+                  {/* Right Content Column */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-title font-heading font-bold text-white mb-2 group-hover:text-gold transition-colors duration-200">
+                      {policy.title}
+                    </h3>
+                    <p className="text-body-sm text-text-secondary leading-relaxed mb-4">
+                      {policy.description}
+                    </p>
 
-                {/* Key Point Box */}
-                <div className="p-3 rounded bg-bg-secondary/60 border border-border-subtle flex items-start gap-2.5 text-[12px] text-text-secondary">
-                  <span className="font-semibold text-gold shrink-0">Key:</span>
-                  <span className="leading-snug">{policy.keyPoint}</span>
+                    {/* Operational key point */}
+                    <div className="p-3 rounded bg-bg-secondary/60 border border-border-subtle flex items-start gap-2.5 text-[12px] text-text-secondary">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1" aria-hidden="true" />
+                      <span className="leading-snug">{policy.keyPoint}</span>
+                    </div>
+                  </div>
                 </div>
               </motion.article>
             )
           })}
         </div>
 
-        {/* ── Additional Coverage Note ───────────────────────── */}
+        {/* ── General Informational Disclaimer ───────────────── */}
         <motion.div
-          className="mt-14 pt-8 border-t border-border-subtle flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-body-sm text-text-secondary"
-          initial={shouldReduceMotion ? {} : { opacity: 0 }}
-          whileInView={shouldReduceMotion ? {} : { opacity: 1 }}
+          className="mt-20 lg:mt-24 p-8 sm:p-9 rounded-xl bg-bg-card border border-border/80 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm"
+          initial={shouldReduceMotion ? {} : { opacity: 0, y: 16 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
           viewport={viewportOnce}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.25, ease: luxuryEase }}
         >
-          <p>
-            Questions about bespoke itineraries, airport VIP delivery, or customized insurance coverage?
+          <p className="text-body-sm text-text-muted leading-relaxed">
+            <strong className="text-text-secondary font-medium">Policy Disclaimer:</strong> All policy descriptions above represent general operational parameters. Specific terms, fuel agreements, security deposit rates, and state entry fees must be finalized with your rental concierge prior to booking confirmation.
           </p>
           <a
             href="#contact"
-            className="text-label font-semibold text-gold hover:text-gold-light transition-colors whitespace-nowrap"
+            className="btn btn-secondary !h-10 !px-4 !text-xs font-semibold shrink-0"
           >
-            Contact Concierge Desk →
+            Review Terms With Us
           </a>
         </motion.div>
       </div>
