@@ -52,7 +52,7 @@ export default function VehicleCard({ vehicle, onEnquire }) {
       </div>
 
       {/* ── Vehicle Details Body ─────────────────────────────── */}
-      <div className="card-vehicle__body flex flex-col flex-1 p-6 justify-between">
+      <div className="card-vehicle__body flex flex-col flex-1 justify-between">
         <div>
           {/* Manufacturer & Model */}
           <div className="mb-2">
